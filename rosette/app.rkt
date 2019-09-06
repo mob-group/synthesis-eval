@@ -5,11 +5,10 @@
 (require "stack.rkt")
 (require "synthesis.rkt")
 
-(define expr
-  (+ arg0 (* 3 arg1)))
+(define expr (+ arg0 arg1 arg2))
 
 (define (main . argv)
-  (define sketch (Prog 16))
+  (define sketch (Prog 5))
   (define model
     (synthesize
       #:forall args

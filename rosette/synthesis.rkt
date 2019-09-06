@@ -30,8 +30,12 @@
                     (Constant))]))
 
 (define-synthax Instruction
-  ([(Instruction)     (choose (pop) 
-                              (add))]
+  ([(Instruction)     (choose (nop)
+                              (flip)
+                              (pop) 
+                              (add)
+                              (sub)
+                              (mul))]
    [(Instruction val) (choose (push val))]))
 
 (define-synthax (Prog size)

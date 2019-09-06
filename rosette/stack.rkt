@@ -22,8 +22,17 @@
 ; Pop the top value off the stack
 (struct pop () #:transparent)
 
-; Pop the two values from the top of the stack, then push their sum
+; Pop the two values from the top of the stack, then push arithmetic
+; combinations of them
 (struct add () #:transparent)
+(struct mul () #:transparent)
+(struct sub () #:transparent)
+
+; Swap the two values on top of the stack
+(struct flip () #:transparent)
+
+; A stack no-op
+(struct nop () #:transparent)
 
 ; A small-step semantics function for stack programs. The state is a list (as
 ; defined above to represent a stack).
@@ -32,13 +41,24 @@
     [(push val)   (cons val state)]
     [(pop)        (cdr state)]
     [(add)        (cons (+ (first state) (second state))
-                       (cddr state))]))
+                       (cddr state))]
+    [(mul)        (cons (* (first state) (second state))
+                       (cddr state))]
+    [(sub)        (cons (- (first state) (second state))
+                       (cddr state))]
+    [(flip)       (cons (second state) (cons
+                        (first state) (cddr state)))]
+    [(nop)        state]))
 
 (define (instr-cost instruction state)
   (match instruction
     [(push val)   (+ state 2)]
     [(pop)        (+ state 1)]
-    [(add)        (+ state 1)]))
+    [(add)        (+ state 1)]
+    [(mul)        (+ state 1)]
+    [(sub)        (+ state 1)]
+    [(flip)       (+ state 1)]
+    [(nop)        state]))
 
 (define interpreter (make-interpreter null step))
 (define cost        (make-interpreter 0 instr-cost))
