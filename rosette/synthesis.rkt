@@ -51,3 +51,11 @@
   (if (false? eq-val)
       #f
       (null? (symbolics eq-val))))
+
+(define (find-min-sat-rec acc proc)
+  (if (sat? (proc acc))
+      (proc acc)
+      (find-min-sat-rec (+ 1 acc) proc)))
+
+(define (find-min-sat proc)
+  (find-min-sat-rec 0 proc))
