@@ -29,9 +29,16 @@
 ; defined above to represent a stack).
 (define (step instruction state)
   (match instruction
-    [(push val)  (cons val state)]
-    [(pop)       (cdr state)]
-    [(add)       (cons (+ (first state) (second state))
+    [(push val)   (cons val state)]
+    [(pop)        (cdr state)]
+    [(add)        (cons (+ (first state) (second state))
                        (cddr state))]))
 
+(define (instr-cost instruction state)
+  (match instruction
+    [(push val)   (+ state 2)]
+    [(pop)        (+ state 1)]
+    [(add)        (+ state 1)]))
+
 (define interpreter (make-interpreter null step))
+(define cost        (make-interpreter 0 instr-cost))
