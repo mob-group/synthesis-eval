@@ -1,0 +1,9 @@
+#include <math.h>
+
+float len(float *arr, int n) {
+  float l = 0;
+  for (int i = 0; i < n; ++i) {
+    l += arr[i] * arr[i];
+  }
+  return sqrt(l);
+}
