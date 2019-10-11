@@ -1,0 +1,13 @@
+#!/bin/bash
+
+script="$1"
+shift
+
+if [ -f "./$script" ]; then
+  for dir in $(ls examples/); do
+    echo "$script -> $dir"
+    "./$script" "$dir"
+  done
+else
+  echo "No matching script"
+fi

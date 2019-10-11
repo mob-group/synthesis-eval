@@ -1,0 +1,22 @@
+#!/bin/bash
+
+example="$1"
+shift
+
+if [ -z "$example" ]; then
+  echo "Missing argument"
+  exit 1
+fi
+
+if [ "$example" = "clean" ]; then
+  rm examples/**/*.so
+  exit 0
+fi
+
+if [[ "$example" != examples/* ]]; then
+  example="examples/$example"
+fi
+
+source_file=$(realpath "$example/ref.c")
+
+cc -fPIC -shared "$source_file" -o "${source_file%.c}.so"
