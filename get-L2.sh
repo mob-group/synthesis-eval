@@ -25,5 +25,14 @@ echo "Installing L2..."
 mkdir -p "$INSTALL_DIR/bin"
 mkdir -p "$INSTALL_DIR/share/L2"
 
+cat >> components/stdlib.ml <<- EOM
+
+let rec newzip = fun xs ys ->
+  let rec helper = fun xs ->
+    if xs = [] then [] else
+      car (car xs) :: helper (cdr xs)
+  in map (zip xs ys) helper
+EOM
+
 cp _build/default/bin/l2_cli.exe "$INSTALL_DIR/bin/L2"
 cp components/* "$INSTALL_DIR/share/L2"

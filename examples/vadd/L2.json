@@ -1,0 +1,12 @@
+{
+  "name": "vadd",
+  "kind": "examples",
+  "contents": {
+    "examples": [
+        "(vadd [] []) -> []",
+        "(vadd [1 2 3] [-2 3 5]) -> [-1 5 8]",
+        "(vadd [4 5] [33 2]) -> [37 7]"
+    ],
+    "background": []
+  }
+}
