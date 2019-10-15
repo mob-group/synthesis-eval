@@ -3,7 +3,7 @@ int str_cspn(char *a, char *b) {
 
   for (char *k = a; *k; ++k) {
     for (char *s = b; *s; ++s) {
-      if (k == *s) {
+      if (*k == *s) {
         return c;
       }
     }
