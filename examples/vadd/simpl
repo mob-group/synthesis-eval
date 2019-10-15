@@ -1,0 +1,20 @@
+Examples
+{1,2}, {3,4}, {1,-22}, 2 -> {4,6};
+{2,3,-4}, {5,9,10}, {-3,1,5555}, 3 -> {7,12,6};
+
+Partial Program
+fun a, b, c, len ->
+i = 0;
+while(?) {
+  ?;
+};
+return c;
+
+Int Comps
+0, 1
+
+Int Var Comps
+i,len
+
+Array Var Comps
+a, b, c
