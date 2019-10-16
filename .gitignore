@@ -175,5 +175,6 @@ simpl/
 L2/
 makespeare/
 baseline/
+pldi/
 
 env.sh
