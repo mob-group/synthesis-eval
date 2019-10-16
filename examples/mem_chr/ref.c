@@ -1,7 +1,7 @@
 #include <stddef.h>
 
-void *mem_chr(char *str, char c, int n) {
-  void *ret = NULL;
+char *mem_chr(char *str, char c, int n) {
+  char *ret = NULL;
   for (int i = 0; i < n; ++i) {
     if (ret == NULL && str[i] == c) {
       ret = &str[i];
