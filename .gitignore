@@ -174,3 +174,6 @@ install/
 simpl/
 L2/
 makespeare/
+baseline/
+
+env.sh
