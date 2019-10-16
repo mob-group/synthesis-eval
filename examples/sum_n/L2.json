@@ -1,0 +1,12 @@
+{
+  "name": "sum_n",
+  "kind": "examples",
+  "contents": {
+    "examples": [
+        "(sum_n 2) -> 3",
+        "(sum_n 10) -> 55",
+        "(sum_n 7) -> 28"
+    ],
+    "background": []
+  }
+}

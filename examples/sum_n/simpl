@@ -1,0 +1,21 @@
+Examples
+2 -> 3;
+10 -> 55;
+7 -> 28;
+
+Partial Program
+fun n ->
+r = 0;
+while(?) {
+  ?;
+};
+return r;
+
+Int Comps
+0, 1
+
+Int Var Comps
+n,r
+
+Array Var Comps
+none
