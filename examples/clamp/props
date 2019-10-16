@@ -1,0 +1,2 @@
+void clamp(int *arr, int n)
+size arr, n
