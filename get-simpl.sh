@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -eu
+
 ROOT=$(realpath $(dirname "$0"))
 
 INSTALL_DIR="$ROOT/install"
@@ -12,7 +14,7 @@ fi
 
 echo "Cloning simpl..."
 
-git clone git@github.com:kupl/SimplPublic.git "$SIMPL_DIR"
+git clone https://github.com/kupl/SimplPublic.git "$SIMPL_DIR"
 cd "$SIMPL_DIR"
 
 echo "Building simpl..."

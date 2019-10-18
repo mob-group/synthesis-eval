@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -eu
+
 ROOT=$(realpath $(dirname "$0"))
 
 INSTALL_DIR="$ROOT/install"
@@ -12,7 +14,7 @@ fi
 
 echo "Cloning makespeare..."
 
-git clone git@github.com:ChristopherRosin/MAKESPEARE.git "$MSP_DIR"
+git clone https://github.com/ChristopherRosin/MAKESPEARE.git "$MSP_DIR"
 cd "$MSP_DIR"
 
 curl -L --output luajit.tar.gz https://luajit.org/download/LuaJIT-2.1.0-beta3.tar.gz

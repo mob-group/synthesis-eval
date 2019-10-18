@@ -1,5 +1,13 @@
 #!/bin/bash
 
+set -eu
+
+if [[ $# -ne 1 ]]; then
+	echo "Usage: $0 <test name>"
+	echo "See examples folder for a list of the examples"
+	exit 1
+fi
+
 ROOT=$(realpath $(dirname "$0"))
 INSTALL_DIR="$ROOT/install"
 
