@@ -53,12 +53,25 @@ class Example(object):
     def array_output(self):
         pass
 
+    # Format an array as requied for the input format of the program (if required).
+    def __format_arr(self, arr):
+        return arr
+
 
 # A list of makespeare examples: this one is just an empty body.
 class Makespeare(ExampleSet):
     def __init__(self):
         super(Makespeare, self).__init__()
         self.type = "makespeare"
+
+    def __str__(self):
+        # Make sure there are some training and some test data
+        for i in range(0, int(0.9 * len(self.examples))):
+            self.examples[i].traintest = 0
+        for i in range(int(0.9 * len(self.examples)), len(self.examples)):
+            self.examples[i].traintest = 1
+
+        return super(Makespeare, self).__str__()
 
 
 # Simpl tracks a few other fields and makes sure those are appropriately
@@ -67,26 +80,26 @@ class Simpl(ExampleSet):
     def __init__(self):
         super(Simpl, self).__init__()
         self.type = "simpl"
-        self.partial_program = ""
-        self.int_comps = ""
-        self.int_var_comps = ""
-        self.array_var_comps = ""
+        self.partial_program = "TODO"
+        self.int_comps = "TODO"
+        self.int_var_comps = "TODO"
+        self.array_var_comps = "none"
 
     def __str__(self):
         return """Examples
-%s
+{example}
 
 Partial Program
-%s
+{prog}
 
 Int Comps
-%s
+{ints}
 
 Int Var Comps
-%s
+{vars}
 
 Array Var Comps
-%s""".format(super(Simpl, self).__str__(), self.partial_program, self.int_comps, self.int_var_comps, self.array_var_comps)
+{arrays}""".format(example=super(Simpl, self).__str__(), prog=self.partial_program, ints=self.int_comps, vars=self.int_var_comps, arrays=self.array_var_comps)
 
 
 class L2(ExampleSet):
@@ -132,11 +145,15 @@ class SimplExample(Example):
         self.inputs = []
         self.outputs = []
 
+    # Format an array like in simpl.
+    def __format_arr(self, array):
+        return '{' + ','.join([str(x) for x in array]) + '}'
+
     def two_array_input(self, arr1, arr2):
-        self.inputs = [arr1, arr2, len(arr1), len(arr2)]
+        self.inputs = [self.__format_arr(arr1), self.__format_arr(arr2), len(arr1), len(arr2)]
         
     def array_output(self, arr):
-        self.outputs = arr
+        self.outputs = [self.__format_arr(arr)]
 
     def __str__(self):
         return ','.join([str(x) for x in self.inputs]) + ' -> ' + ','.join([str(x) for x in self.outputs]) + ';'
@@ -152,7 +169,7 @@ class MakespeareExample(Example):
         self.r0 = 0
         self.r8 = 0
         self.r9 = 0
-        self.mem_size = 0
+        self.input_mem_size = 0
         self.input_mem = []
         self.scalar_ret_flag = 0
         self.scalar_ret_val = 0
@@ -176,7 +193,7 @@ class MakespeareExample(Example):
         self.output_mem = arr
 
     def __str__(self):
-        values = [self.traintest, self.r7, self.r6, self.r2, self.r0, self.r8, self.r9, self.mem_size, ' '.join([str(x) for x in self.input_mem]), self.scalar_ret_flag, self.scalar_ret_val, self.output_mem_start, self.output_mem_size, ' '.join([str(x) for x in self.output_mem])]
+        values = [self.traintest, self.r7, self.r6, self.r2, self.r0, self.r8, self.r9, self.input_mem_size, ' '.join([str(x) for x in self.input_mem]), self.scalar_ret_flag, self.scalar_ret_val, self.output_mem_start, self.output_mem_size, ' '.join([str(x) for x in self.output_mem])]
         values = [str(value) for value in values]
 
         return '\t'.join(values)

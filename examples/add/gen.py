@@ -5,7 +5,7 @@ import random
 
 
 def generate_example():
-    array_len = random.randint(2, 100)
+    array_len = random.randint(2, 10)
 
     arr1 = []
     arr2 = []
@@ -37,7 +37,18 @@ if __name__ == "__main__":
     example_sets = gen_utils.build_sets(examples, convert)
 
     # Set up any important sub-fields in any of the tests.
-    # None for this test.
-    
+    # Need to set an example program for simpl.
+    example_sets['simpl'].partial_program = """
+fun arr1, arr2, l1, l2 ->
+r=0;
+while(?) {
+?;
+r = r + 1;
+}
+return arr1;
+"""
+    example_sets['simpl'].int_comps = "0"
+    example_sets['simpl'].int_var_comps = 'l1, l2, r'
+
     # Write them out to files.
     gen_utils.write_sets(example_sets)
