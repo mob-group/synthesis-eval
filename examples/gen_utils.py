@@ -125,13 +125,18 @@ class L2(ExampleSet):
         return str(self_dict)
 
 
-# TODO
+# TODO -- These all need to have a constructor that is: (a) no (non-self) arguments, and (b) makes a call to the superclass __init__ function.
+# These two need to implment the __str__(self) function, which should return a string
+# that will be put in a file as the input file for the synthesis tool.
 class PLDI(ExampleSet):
     pass
 
 class Baseline(ExampleSet):
     pass
 
+# TODO -- These all need to have a constructor that is: (a) no (non-self) arguments, and (b) makes a call to the superclass __init__ function.
+# These need to implement all the skeletons in the Example class. Warning: there are likely
+# to be more skeletons that need to be done later.
 class PLDIExample(Example):
     pass
 
