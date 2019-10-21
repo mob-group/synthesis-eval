@@ -1,3 +1,5 @@
+import json
+
 # These constants represent the number of examples that we should present to each
 # type of synthesis tool.
 MAX_MAKESPEARE = 2200
@@ -122,7 +124,7 @@ class L2(ExampleSet):
                     'examples': [str(ex) for ex in self.examples]
                 }
         }
-        return str(self_dict)
+        return json.dumps(self_dict)
 
 
 # TODO -- These all need to have a constructor that is: (a) no (non-self) arguments, and (b) makes a call to the superclass __init__ function.
@@ -211,11 +213,14 @@ class L2Example(Example):
         self.inputs = []
         self.outputs = []
 
+    def __format_arr(self, arr):
+        return '[' + ' '.join([str(x) for x in arr]) + ']'
+
     def two_array_input(self, arr1, arr2):
-        self.inputs = [arr1, arr2]
+        self.inputs = [self.__format_arr(arr1), self.__format_arr(arr2)]
 
     def array_output(self, arr):
-        self.outputs = arr
+        self.outputs = [self.__format_arr(arr)]
 
     def __str__(self):
         str_in = [str(inp) for inp in self.inputs]
