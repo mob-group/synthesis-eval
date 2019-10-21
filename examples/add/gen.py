@@ -5,15 +5,15 @@ import random
 
 
 def generate_example():
-    array_len = random.randint(2, 10)
+    array_len = random.randint(1, 3)
 
     arr1 = []
     arr2 = []
     res = []
 
     for i in range(array_len):
-        n1 = random.randint(-100, 100)
-        n2 = random.randint(-100, 100)
+        n1 = random.randint(0, 10)
+        n2 = random.randint(0, 10)
         arr1.append(n1)
         arr2.append(n2)
         res.append(n1 + n2)
@@ -49,6 +49,11 @@ return arr1;
 """
     example_sets['simpl'].int_comps = "0"
     example_sets['simpl'].int_var_comps = 'l1, l2, r'
+
+    base_case = gen_utils.L2Example()
+    base_case.two_array_input([], [])
+    base_case.array_output([])
+    example_sets['L2'].base_cases = [base_case]
 
     # Write them out to files.
     gen_utils.write_sets(example_sets)
