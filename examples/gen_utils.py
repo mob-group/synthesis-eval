@@ -112,6 +112,7 @@ class L2(ExampleSet):
         self.kind = 'examples'
         self.description = "An auto-generated example set"
         self.background = []
+        self.base_cases = []
 
 
     def __str__(self):
@@ -121,7 +122,7 @@ class L2(ExampleSet):
                 'description': self.description,
                 'background': self.background,
                 'contents': {
-                    'examples': [str(ex) for ex in self.examples]
+                    'examples': [str(ex) for ex in self.base_cases] + [str(ex) for ex in self.examples]
                 }
         }
         return json.dumps(self_dict)
