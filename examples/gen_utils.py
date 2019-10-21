@@ -48,11 +48,27 @@ class Example(object):
     # This should set the input stream to two arrays.  Lengths should
     # be specified where appropriate if needed.
     def two_array_input(self, arr1, arr2):
+        self.add_array_input(arr1)
+        self.add_array_input(arr2)
+
+    def two_int_input(self, i1, i2):
+        self.add_int_input(i1, i2)
+
+    def add_array_input(self, arr):
+        pass
+
+    def add_int_input(self, int):
+        pass
+
+    def add_str_input(self, str):
         pass
 
     # This sets a single array as the expected output.  Lengths should
     # be specified where appropriate if needed.
-    def array_output(self):
+    def array_output(self, arr):
+        pass
+
+    def int_output(self, i):
         pass
 
     # Format an array as requied for the input format of the program (if required).
@@ -157,11 +173,17 @@ class SimplExample(Example):
     def __format_arr(self, array):
         return '{' + ','.join([str(x) for x in array]) + '}'
 
-    def two_array_input(self, arr1, arr2):
-        self.inputs = [self.__format_arr(arr1), self.__format_arr(arr2), len(arr1), len(arr2)]
-        
+    def add_array_input(self, arr1):
+        self.inputs.append(self.__format_arr(arr1))
+
+    def add_int_input(self, i):
+        self.inputs.append(i)
+
     def array_output(self, arr):
         self.outputs = [self.__format_arr(arr)]
+
+    def int_output(self, i):
+        self.outputs = [i]
 
     def __str__(self):
         return ','.join([str(x) for x in self.inputs]) + ' -> ' + ','.join([str(x) for x in self.outputs]) + ';'
@@ -185,15 +207,38 @@ class MakespeareExample(Example):
         self.output_mem_size = 0
         self.output_mem = []
 
-    # Set two arrays as the inputs.
-    def two_array_input(self, arr1, arr2):
+        self.length_register_index = 0
+
+
+    # Use the next unused register to pass the number 'n'.
+    def pass_number(self, n):
+        # Note that there is no r6, as Makespeare is best helped
+        # by putting len(memory - 1) in that.
+        reg_list = ['r7', 'r2', 'r0', 'r8', 'r9']
+        if self.length_register_index > len(reg_list):
+            raise Exception("Makespear example was passed too many arguments.  Got " + str(self.length_register_index) + " but have a max of " + str(len(reg_list)))
+        register = reg_list[self.length_register_index]
+
+        self.length_register_index += 1
+        self.__dict__[register] = n
+
+    def add_array_input(self, arr):
         # This is a massive fudge because the input system 'supports' this,
         # but will never figure out how memory is partitioned.
-        self.r7 = len(arr1)
-        self.r6 = len(arr2)
+        self.pass_number(len(arr))
 
-        self.input_mem = arr1 + arr2
-        self.input_mem_size = len(arr1) + len(arr2)
+        self.input_mem += arr
+        self.input_mem_size += len(arr)
+
+    def add_int_input(self, i):
+        # This could happen, it may or may not help.
+        # self.pass_number(input_mem_size)
+        self.input_mem.append(i)
+        self.input_mem_size += 1
+
+    def int_output(self, i):
+        self.output_mem_size = 1
+        self.output_mem = [i]
 
     # Set a single array as the expected output.
     def array_output(self, arr):
@@ -201,6 +246,7 @@ class MakespeareExample(Example):
         self.output_mem = arr
 
     def __str__(self):
+        self.r6 = self.input_mem_size - 1
         values = [self.traintest, self.r7, self.r6, self.r2, self.r0, self.r8, self.r9, self.input_mem_size, ' '.join([str(x) for x in self.input_mem]), self.scalar_ret_flag, self.scalar_ret_val, self.output_mem_start, self.output_mem_size, ' '.join([str(x) for x in self.output_mem])]
         values = [str(value) for value in values]
 
@@ -217,11 +263,17 @@ class L2Example(Example):
     def __format_arr(self, arr):
         return '[' + ' '.join([str(x) for x in arr]) + ']'
 
-    def two_array_input(self, arr1, arr2):
-        self.inputs = [self.__format_arr(arr1), self.__format_arr(arr2)]
+    def add_array_input(self, arr):
+        self.inputs.append(self.__format_arr(arr))
+
+    def add_int_input(self, i):
+        self.inputs.append(i)
 
     def array_output(self, arr):
         self.outputs = [self.__format_arr(arr)]
+
+    def int_output(self, i):
+        self.outputs = [i]
 
     def __str__(self):
         str_in = [str(inp) for inp in self.inputs]
