@@ -1,0 +1,5 @@
+void lerp(float *out, float *x, float *y, float alpha, int n)
+output out
+size out, n
+size x, n
+size y, n

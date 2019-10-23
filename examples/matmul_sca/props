@@ -1,0 +1,2 @@
+void matmul_sca(int *matA, int *matB, int val, int m, int n)
+output matB

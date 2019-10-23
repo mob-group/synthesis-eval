@@ -1,0 +1,2 @@
+void matinit(int *mat, int val, int m, int n)
+output mat

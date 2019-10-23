@@ -1,0 +1,3 @@
+void fourth_in_place(int *arr, int n)
+output arr
+size arr, n

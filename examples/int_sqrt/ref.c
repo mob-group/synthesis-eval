@@ -1,4 +1,4 @@
-int isqrt(int n) {
+int int_sqrt(int n) {
   int b = 0;
 
   while (n >= 0) {

@@ -1,0 +1,3 @@
+void dag_src(int *a, int *b, int n)
+output b
+size b, n

@@ -1,0 +1,2 @@
+int last_zero_idx(int *arr, int n)
+size arr, n

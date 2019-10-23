@@ -1,0 +1,2 @@
+void count_each(int n, int *counts)
+output counts

@@ -1,0 +1,2 @@
+int last_elem(int *arr, int n)
+size arr, n

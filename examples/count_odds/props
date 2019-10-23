@@ -1,0 +1,2 @@
+int count_odds(int *arr, int n)
+size arr, n

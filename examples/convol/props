@@ -1,0 +1,4 @@
+void convol(int M, int K, float *in, float *k, float *o)
+output o
+size o, M
+size k, K

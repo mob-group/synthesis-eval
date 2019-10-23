@@ -1,0 +1,4 @@
+void diveq(int *a, int *b, int n)
+output a
+size a, n
+size b, n
