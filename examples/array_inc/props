@@ -1,0 +1,3 @@
+void array_inc(int *arr, int n)
+output arr
+size arr, n

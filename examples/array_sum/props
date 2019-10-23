@@ -1,0 +1,2 @@
+int array_sum(int *arr, int n)
+size arr, n

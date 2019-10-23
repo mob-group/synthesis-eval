@@ -1,0 +1,1 @@
+int a_pow_n(int a, int n)

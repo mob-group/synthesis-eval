@@ -1,0 +1,2 @@
+int array_prod(int *arr, int n)
+size arr, n
