@@ -11,7 +11,7 @@ for example in $(ls "$ROOT/examples"); do
   IN_C="$ROOT/examples/$example/ref.c"
 
   if [ -f "$IN_PROPS" ]; then
-    exit 0
+    continue
   fi
 
   if [ ! -f "$IN_C" ]; then
