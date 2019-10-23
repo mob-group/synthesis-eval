@@ -1,0 +1,3 @@
+void add(int *list, int val, int n)
+output list
+size list, n
