@@ -32,7 +32,7 @@ cd "$BASELINE_DIR"
 
 echo "Building baseline..."
 
-git checkout pldi-baseline
+git checkout baseline
 mkdir build
 cd build
 
