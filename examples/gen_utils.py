@@ -1,4 +1,5 @@
 import json
+import random
 
 # These constants represent the number of examples that we should present to each
 # type of synthesis tool.
@@ -183,6 +184,10 @@ class SimplExample(Example):
     def array_output(self, arr):
         self.outputs = [self.__format_arr(arr)]
 
+        # We also need to add an array of the same length as an input
+        # since there appears to be no way for Simpl to generate an array.
+        self.add_array_input([0] * len(arr))
+
     def int_output(self, i):
         self.outputs = [i]
 
@@ -340,3 +345,19 @@ def write_sets(sets):
     for type in TYPES:
         # the type doubles as the filename.
         sets[type].write(type)
+
+
+def randomfloatarray(len):
+    arr = []
+    for i in range(len):
+        arr.append(random.random() * 10.0)
+
+    return arr
+
+
+def randomintarray(len):
+    arr = []
+    for i in range(len):
+        arr.append(random.randint(0, 20))
+
+    return arr

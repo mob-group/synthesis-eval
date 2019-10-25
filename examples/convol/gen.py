@@ -5,25 +5,31 @@ import random
 
 
 def generate_example():
-    array_len = random.randint(1, 30)
+    M = int(random.randint(2, 20))
+    K = int(random.randint(2, 20))
 
-    arr1 = []
-    diff = random.randint(0, 100)
-    res = []
+    inarr = gen_utils.randomintarray(M)
+    karr = gen_utils.randomintarray(K)
+    sumarr = [0] * M
 
-    for i in range(array_len):
-        n = random.randint(-100, 100)
-        arr1.append(n)
-        res.append(n + diff)
+    for i in range(M):
+        sum = 0
+        for j in range(K):
+            idx = i - j
+            ival = 0 if i - j < 0 else inarr[idx]
+            sum += ival * karr[j]
 
-    return (arr1, diff, res)
+    return (M, K, inarr, karr, sumarr)
 
 
 # This tool is independent of the syntool name.
 def convert(example, example_class, syntool_name):
-    example_class.add_array_input(example[0])
+    example_class.add_int_input(example[0])
     example_class.add_int_input(example[1])
-    example_class.array_output(example[2])
+    example_class.add_array_input(example[2])
+    example_class.add_array_input(example[3])
+
+    example_class.array_output(example[4])
 
     return example_class
 
@@ -38,20 +44,23 @@ if __name__ == "__main__":
     # Set up any important sub-fields in any of the tests.
     # Need to set an example program for simpl.
     example_sets['simpl'].partial_program = """
-fun arr, len, n, arrout ->
-r=0;
+fun m, k, marr, karr, arrout ->
+i=0;
+j=0;
 while(?) {
 ?;
 }
 return arrout;
 """
-    example_sets['simpl'].int_comps = "0"
-    example_sets['simpl'].int_var_comps = 'n, len, r'
-    example_sets['simpl'].array_var_comps = 'arr, arrout'
+    example_sets['simpl'].int_comps = "0,1,2,3"
+    example_sets['simpl'].int_var_comps = 'i, j, m, k'
+    example_sets['simpl'].array_var_comps = 'marr, karr, arrout'
 
     base_case = gen_utils.L2Example()
-    base_case.add_array_input([])
+    base_case.add_int_input(0)
     base_case.add_int_input(2)
+    base_case.add_array_input([])
+    base_case.add_array_input([3, 4])
     base_case.array_output([])
     example_sets['L2'].base_cases = [base_case]
 

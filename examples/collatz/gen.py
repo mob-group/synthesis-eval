@@ -5,25 +5,25 @@ import random
 
 
 def generate_example():
-    array_len = random.randint(1, 30)
+    number = int(random.randint(2, 20))
 
-    arr1 = []
-    diff = random.randint(0, 100)
-    res = []
+    steps = 0
+    orig = number
 
-    for i in range(array_len):
-        n = random.randint(-100, 100)
-        arr1.append(n)
-        res.append(n + diff)
+    while number > 1:
+        if number % 2 == 0:
+            number = number / 2
+        else:
+            number = 3 * number + 1
+        steps += 1
 
-    return (arr1, diff, res)
+    return (orig, steps)
 
 
 # This tool is independent of the syntool name.
 def convert(example, example_class, syntool_name):
-    example_class.add_array_input(example[0])
-    example_class.add_int_input(example[1])
-    example_class.array_output(example[2])
+    example_class.add_int_input(example[0])
+    example_class.int_output(example[1])
 
     return example_class
 
@@ -38,21 +38,20 @@ if __name__ == "__main__":
     # Set up any important sub-fields in any of the tests.
     # Need to set an example program for simpl.
     example_sets['simpl'].partial_program = """
-fun arr, len, n, arrout ->
+fun x ->
 r=0;
 while(?) {
 ?;
 }
-return arrout;
+return r;
 """
-    example_sets['simpl'].int_comps = "0"
-    example_sets['simpl'].int_var_comps = 'n, len, r'
-    example_sets['simpl'].array_var_comps = 'arr, arrout'
+    example_sets['simpl'].int_comps = "0,1,2,3"
+    example_sets['simpl'].int_var_comps = 'x, r'
+    example_sets['simpl'].array_var_comps = 'none'
 
     base_case = gen_utils.L2Example()
-    base_case.add_array_input([])
-    base_case.add_int_input(2)
-    base_case.array_output([])
+    base_case.add_int_input(1)
+    base_case.int_output(0)
     example_sets['L2'].base_cases = [base_case]
 
     # Write them out to files.
