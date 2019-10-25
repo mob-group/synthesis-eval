@@ -1,5 +1,4 @@
-void pluseq(int *a, int *b, int n) {
-  for (int i = 0; i < n; ++i) {
-    a[i] += b[i];
-  }
-}
+void pluseq(int *a, int *b, int n)
+output a
+size a, n
+size b, n

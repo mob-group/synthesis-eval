@@ -1,5 +1,2 @@
-void str_cpy(char *dst, char *src) {
-  while (*src) {
-    *dst++ = *src++;
-  }
-}
+void str_cpy(char *dst, char *src)
+output dst

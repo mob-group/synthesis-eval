@@ -1,5 +1,3 @@
-void muleq_sca(int *a, int b, int n) {
-  for (int i = 0; i < n; ++i) {
-    a[i] *= b;
-  }
-}
+void muleq_sca(int *a, int b, int n)
+output a
+size a, n
