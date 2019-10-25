@@ -40,8 +40,8 @@ cmake \
   -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_INSTALL_PREFIX="$INSTALL_DIR" \
   -DLLVM_DIR="$IDL_DIR" \
-  -DCMAKE_C_COMPILER=gcc-8 \
-  -DCMAKE_CXX_COMPILER=g++-8 \
+  -DCMAKE_C_COMPILER=$SY_CC \
+  -DCMAKE_CXX_COMPILER=$SY_CXX \
   ../src
 
 make -j$(nproc)

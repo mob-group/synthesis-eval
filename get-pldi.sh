@@ -8,7 +8,7 @@ if [ -z "$IDL_ROOT" ]; then
   echo "No IDL installation supplied; can't build pldi"
   exit 1
 else
-  IDL_DIR="$IDL_ROOT/install/lib/cmake/llvm"
+  IDL_DIR="$IDL_ROOT/lib/cmake/llvm"
   if [ ! -d "$IDL_DIR" ]; then
     echo "Not a valid IDL install location: $IDL_DIR"
     exit 2
@@ -39,8 +39,8 @@ cmake \
   -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_INSTALL_PREFIX="$INSTALL_DIR" \
   -DLLVM_DIR="$IDL_DIR" \
-  -DCMAKE_C_COMPILER=gcc-8 \
-  -DCMAKE_CXX_COMPILER=g++-8 \
+  -DCMAKE_C_COMPILER=$SY_CC \
+  -DCMAKE_CXX_COMPILER=$SY_CXX \
   ../src
 
 make -j$(nproc)
