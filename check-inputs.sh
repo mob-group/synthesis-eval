@@ -26,7 +26,7 @@ for example in $(ls "$ROOT/examples"); do
     continue
   fi
 
-  "$INSTALL_DIR/bin/pldi -dry-run $IN_PROPS $IN_LIB" >/dev/null 2>&1
+  "$INSTALL_DIR/bin/pldi" -dry-run "$IN_PROPS" "$IN_LIB" >/dev/null 2>&1
 
   if [ $? -eq 0 ]; then
     valid+=("$example")
