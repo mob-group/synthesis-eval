@@ -8,7 +8,7 @@ if [ -z "$IDL_ROOT" ]; then
   echo "No IDL installation supplied; can't build baseline"
   exit 1
 else
-  IDL_DIR="$IDL_ROOT/install/lib/cmake/llvm"
+  IDL_DIR="$IDL_ROOT/lib/cmake/llvm"
   if [ ! -d "$IDL_DIR" ]; then
     echo "Not a valid IDL install location: $IDL_DIR"
     exit 2
