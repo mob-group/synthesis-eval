@@ -1,7 +1,7 @@
 # synthesis-eval
 Collection of synthesis tools and results, benchmarked against each other.
 
-## Build Environment
+## Build Environment
 
 Environment variables that should be exported in `env.sh` (not checked in):
 * `IDL_ROOT`: the install directory for IDL. Should have `lib/cmake/llvm` in it.
