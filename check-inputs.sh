@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 ROOT=$(realpath $(dirname "$0"))
 INSTALL_DIR="$ROOT/install"
@@ -35,10 +35,10 @@ for example in $(ls "$ROOT/examples"); do
   fi
 done
 
-BOLD="\e[1m"
-GREEN="\e[32m"
-RED="\e[31m"
-RESET="\e[0m"
+BOLD='\e[1m'
+GREEN='\e[32m'
+RED='\e[31m'
+RESET='\e[0m'
 
 echo -e "${BOLD}${GREEN}✔ Done${RESET}"
 for val_ex in ${valid[@]}; do
