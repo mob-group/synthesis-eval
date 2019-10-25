@@ -40,12 +40,12 @@ fun arr, len ->
 r=0;
 while(?) {
 ?;
-r = r + 1;
 }
 return arr;
 """
     example_sets['simpl'].int_comps = "0,1"
-    example_sets['simpl'].int_var_comps = 'n, len, r'
+    example_sets['simpl'].int_var_comps = 'len, r'
+    example_sets['simpl'].array_var_comps = 'arr'
 
     base_case = gen_utils.L2Example()
     base_case.add_array_input([])

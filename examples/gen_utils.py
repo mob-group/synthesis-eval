@@ -175,6 +175,7 @@ class SimplExample(Example):
 
     def add_array_input(self, arr1):
         self.inputs.append(self.__format_arr(arr1))
+        self.inputs.append(len(arr1))
 
     def add_int_input(self, i):
         self.inputs.append(i)
