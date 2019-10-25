@@ -1,5 +1,5 @@
-void vsub(int *a, int *b, int *c, int n) {
-  for (int i = 0; i < n; ++i) {
-    c[i] = a[i] - b[i];
-  }
-}
+void vsub(int *a, int *b, int *c, int n)
+output c
+size a, n
+size b, n
+size c, n

@@ -1,0 +1,4 @@
+void ger(int m, int n, float *x, float *y, float *a)
+output a
+size x, m
+size y, n
