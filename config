@@ -1,0 +1,6 @@
+# List some config values.  Timeouts for each tool in seconds.
+# Makespeare gets an hour
+makespeare_timeout: 3600
+# L2 and Simpl are faster, so get a bit less, 20 minutes
+l2_timeout: 1200
+simpl_timeout: 1200
