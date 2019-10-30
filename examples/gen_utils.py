@@ -53,7 +53,8 @@ class Example(object):
         self.add_array_input(arr2)
 
     def two_int_input(self, i1, i2):
-        self.add_int_input(i1, i2)
+        self.add_int_input(i1)
+        self.add_int_input(i2)
 
     def add_array_input(self, arr):
         pass
