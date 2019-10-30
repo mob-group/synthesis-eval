@@ -69,6 +69,10 @@ class Example(object):
     def array_output(self, arr):
         pass
 
+    # For many languages, this is not possible, so just skip it.
+    def in_place_array_output(self, arr):
+        self.array_output(arr)
+
     def int_output(self, i):
         pass
 
@@ -187,6 +191,11 @@ class SimplExample(Example):
         # We also need to add an array of the same length as an input
         # since there appears to be no way for Simpl to generate an array.
         self.add_array_input([0] * len(arr))
+
+    def in_place_array_output(self, arr):
+        # In-place means one of the arguments is going to be reused,
+        # so don't pass the same thing again.
+        self.outputs = [self.__format_arr(arr)]
 
     def int_output(self, i):
         self.outputs = [i]
@@ -355,9 +364,9 @@ def randomfloatarray(len):
     return arr
 
 
-def randomintarray(len):
+def randomintarray(len, min=0, max=20):
     arr = []
     for i in range(len):
-        arr.append(random.randint(0, 20))
+        arr.append(random.randint(min, max))
 
     return arr
