@@ -61,7 +61,7 @@ check_l2() {
 
 check_makespeare() {
 	local output_file=$1
-	local results_file =$2
+	local results_file=$2
 
 	count=$(grep -e 'Fully correct on training set' $output_file -c || true)
 
@@ -86,6 +86,16 @@ check_simpl() {
 }
 
 results_file=examples/$test/results
+echo "" -n > $results_file
 check_l2 $l2_out $results_file
 check_makespeare $makespeare_out $results_file
 check_simpl $simpl_out $results_file
+
+if [[ ${#check} -ne 0 ]]; then
+	echo "L2 Out:"
+	tail -n 10 $l2_out
+	echo "Makespeare Out:"
+	tail -n 10 $makespeare_out
+	echo "Simpl Out:"
+	tail -n 10 $simpl_out
+fi
