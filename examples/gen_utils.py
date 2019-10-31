@@ -15,7 +15,7 @@ TYPE_LENGTHS = {
         'Baseline': MAX_BASELINE,
         'makespeare': MAX_MAKESPEARE
 }
-MAX = TYPE_LENGTHS[max(TYPE_LENGTHS)]
+MAX = max(TYPE_LENGTHS.values())
 
 # This is a list of the supported synthesis program types.
 TYPES = ["L2", "makespeare", "simpl"] # TODO -- Add PLDI and Baseline once those are supported.
