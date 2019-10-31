@@ -76,9 +76,9 @@ check_simpl() {
 	local output_file=$1
 	local results_file=$2
 
-	count=$(grep -e 'Fail to Synthesize' $output_file -c || true)
+	count=$(grep -e 'COMPLETE PROGRAM' $output_file -c || true)
 
-	if [[ $count == 0 ]]; then
+	if [[ $count -ne 0 ]]; then
 		echo "simpl: success" >> $results_file
 	else
 		echo "simpl: failed" >> $results_file
