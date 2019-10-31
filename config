@@ -1,6 +1,8 @@
 # List some config values.  Timeouts for each tool in seconds.
-# Makespeare gets an hour
-makespeare_timeout: 3600
+# Makespeare gets 12 hours
+makespeare_timeout: 43200
+# This is the number of independent makespears to run.  Each requires a HW thread.
+makespeare_seeds: 20
 # L2 and Simpl are faster, so get a bit less, 20 minutes
 l2_timeout: 1200
 simpl_timeout: 1200
