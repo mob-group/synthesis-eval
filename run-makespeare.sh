@@ -6,7 +6,7 @@ if [[ $# -ne 1 ]]; then
 	exit 1
 fi
 
-seed=50105
+source utils.sh
 
 ROOT=$(realpath $(dirname "$0"))
 INSTALL_DIR="$ROOT/install"
@@ -18,4 +18,12 @@ if [ ! -f $IN_FILE ]; then
 	exit 1
 fi
 
-$INSTALL_DIR/bin/makespeare $seed $IN_FILE 2.0 0.0 1.0 0.0 2000000 1
+num_seeds=$(get_config_value makespeare_seeds)
+
+typeset -a seeds
+seeds=( $(seq 50000 $(( 50000 + $num_seeds - 1 ))) )
+if [[ ${#seeds[@]} == 0 ]]; then
+	echo "Found no seeds!  Try setting some non-zero number of seeds in the config"
+	exit 1
+fi
+parallel $INSTALL_DIR/bin/makespeare {} $IN_FILE 2.0 0.0 1.0 0.0 2000000 9 ::: ${seeds[@]}

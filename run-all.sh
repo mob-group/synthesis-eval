@@ -3,6 +3,7 @@
 set -eu
 
 source utils.sh
+zmodload zsh/mathfunc
 
 help() {
 	echo "This script runs Makespeare, L2 and Simpl on a specified example."
@@ -61,8 +62,18 @@ for test in ${tests[@]}; do
 	fi
 done
 
+# Calculate the number of threads that each test needs, and make sure that the cores
+# are not overutilized.  L2 and Simpl both need 1 CPU.  Makespeare needs one for each
+# thread.
+makespeare_threads=$(get_config_value makespeare_seeds )
+total_threads=$(( $makespeare_threads + 1 + 1 ))
+# Each job will use $total_threads CPUS.  We want NumberJobs * NumberPerJob = Total,
+# so NumberJobs = Total / NumberPerJob.  Then, FractionRunning = 1 / NumberPerJob.
+percent=$(( 100.0 / $total_threads ))
+
 if [[ ${#tests_to_run} -gt 0 ]]; then
-	parallel --line-buffer -j100% "echo 'starting test {}'; ./__run.sh {}; echo 'test {} done'" ::: ${tests_to_run[@]}
+	set -x
+	parallel --line-buffer -j${percent%.*}% "echo 'starting test {}'; ./__run.sh {}; echo 'test {} done'" ::: ${tests_to_run[@]}
 else
 	help
 	exit 0
