@@ -10,7 +10,12 @@ source utils.sh
 
 # Parallel spawns a lot of children.  It won't kill those children
 # willingly, without a lot of help from the trap.
-trap kill_children TERM EXIT INT
+kill_and_exit() {
+	echo "Killing children and exiting..."
+	kill_children
+	exit 0
+}
+trap kill_and_exit TERM EXIT INT SIGTERM SIGINT
 
 ROOT=$(realpath $(dirname "$0"))
 INSTALL_DIR="$ROOT/install"

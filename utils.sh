@@ -50,6 +50,8 @@ list_descendents_from_proc() {
 
 kill_children() {
 	echo "Killing children!"
-	kill $(list_descendants $$)
+	children=$(list_descendants $$)
+	kill -9 $children || true
+	echo "Killed $children"
 }
 
