@@ -2,12 +2,13 @@
 
 set -eu
 if [[ $# -ne 1 ]]; then
-	echo "Usage $0 <test>"
+	echo "Usage $0 <test> <timeout>"
 	exit 1
 fi
 
 source utils.sh
 
+timeout=$2
 # Parallel spawns a lot of children.  It won't kill those children
 # willingly, without a lot of help from the trap.
 kill_and_exit() {
@@ -35,4 +36,4 @@ if [[ ${#seeds[@]} == 0 ]]; then
 	echo "Found no seeds!  Try setting some non-zero number of seeds in the config"
 	exit 1
 fi
-parallel $INSTALL_DIR/bin/makespeare {} $IN_FILE 2.0 0.0 1.0 0.0 2000000 9 ::: ${seeds[@]}
+parallel --timeout $timeout $INSTALL_DIR/bin/makespeare {} $IN_FILE 2.0 0.0 1.0 0.0 2000000 9 ::: ${seeds[@]}
