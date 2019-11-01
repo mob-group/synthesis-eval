@@ -18,6 +18,7 @@ def generate_example():
             idx = i - j
             ival = 0 if i - j < 0 else inarr[idx]
             sum += ival * karr[j]
+        sumarr[i] = sum
 
     return (M, K, inarr, karr, sumarr)
 
