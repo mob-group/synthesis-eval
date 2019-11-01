@@ -8,6 +8,10 @@ fi
 
 source utils.sh
 
+# Parallel spawns a lot of children.  It won't kill those children
+# willingly, without a lot of help from the trap.
+trap kill_children TERM EXIT INT
+
 ROOT=$(realpath $(dirname "$0"))
 INSTALL_DIR="$ROOT/install"
 

@@ -42,9 +42,9 @@ tmp_l2_file=$(mktemp /tmp/syntheval.XXXXXX)
 tmp_simpl_timeout_file=$(mktemp /tmp/syntheval.XXXXXX)
 
 start_time=$( date '+%s')
-( timeout -s KILL $makespeare_timeout ./run-makespeare.sh $test &> $makespeare_out || true; echo $(date '+%s') > $tmp_makespeare_file) &
-(timeout -s KILL $l2_timeout ./run-L2.sh $test &> $l2_out || true; echo $( date '+%s') > $tmp_l2_file ) &
-(timeout -s KILL $simpl_timeout ./run-simpl.sh $test &> $simpl_out || true; echo $( date '+%s') > $tmp_simpl_timeout_file) &
+( timeout -s TERM $makespeare_timeout ./run-makespeare.sh $test &> $makespeare_out || true; echo $(date '+%s') > $tmp_makespeare_file) &
+(timeout -s TERM $l2_timeout ./run-L2.sh $test &> $l2_out || true; echo $( date '+%s') > $tmp_l2_file ) &
+(timeout -s TERM $simpl_timeout ./run-simpl.sh $test &> $simpl_out || true; echo $( date '+%s') > $tmp_simpl_timeout_file) &
 
 wait
 

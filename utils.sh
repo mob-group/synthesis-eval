@@ -31,3 +31,25 @@ get_config_value() {
 exportf() {
     export $(echo $1)="`whence -f $1 | sed -e "s/$1 //" `"
 }
+
+list_descendants () {
+	children=$(ps -o pid= --ppid "$1")
+	echo $children
+
+	for pid in $children
+	do
+		list_descendants "$pid"
+	done
+
+	echo "$children"
+}
+
+list_descendents_from_proc() {
+	list_descendants $$
+}
+
+kill_children() {
+	echo "Killing children!"
+	kill $(list_descendants $$)
+}
+
