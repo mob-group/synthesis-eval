@@ -94,7 +94,7 @@ check_simpl() {
 	local results_file=$2
 	local timed_out=$3
 
-	count=$(grep -e 'COMPLETE PROGRAM' $output_file -c || true)
+	count=$(grep -e ' COMPLETE PROGRAM' $output_file -c || true)
 
 	if [[ $count -ne 0 ]]; then
 		echo "simpl: success" >> $results_file
