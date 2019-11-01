@@ -1,7 +1,7 @@
 #!/bin/bash
 
 set -eu
-if [[ $# -ne 1 ]]; then
+if [[ $# -ne 2 ]]; then
 	echo "Usage $0 <test> <timeout>"
 	exit 1
 fi
