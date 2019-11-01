@@ -5,18 +5,19 @@ import random
 
 
 def generate_example():
-    N = int(random.randint(2, 20))
+    n = random.randint(2, 5)
+    m = random.randint(2, 5)
+    p = random.randint(2, 5)
+    matA = gen_utils.randomintarray(m * n)
+    matB = gen_utils.randomintarray(n * p)
+    matC = [0] * (m * p)
 
-    inarr = gen_utils.randomintarray(N)
-    outarr = [0] * N
-    coeffs = gen_utils.randomintarray(N)
+    for i in range(m):
+        for j in range(p):
+            for k in range(n):
+                matC[p * i + j] += matA[n * i + k] + matB[p * k + j]
 
-    for n in range(N):
-        outarr[n] = 0
-        for i in range(0, N - 1):
-            outarr[n] += coeffs[i] * inarr[N - 1 - i]
-
-    return (inarr, coeffs, N, outarr)
+    return (matA, matB, m, n, p, matC)
 
 
 # This tool is independent of the syntool name.
@@ -24,7 +25,9 @@ def convert(example, example_class, syntool_name):
     example_class.add_array_input(example[0], nolen=True)
     example_class.add_array_input(example[1], nolen=True)
     example_class.add_int_input(example[2])
-    example_class.array_output(example[3], nolen=True)
+    example_class.add_int_input(example[3])
+    example_class.add_int_input(example[4])
+    example_class.array_output(example[5], nolen=True)
 
     return example_class
 
@@ -39,21 +42,23 @@ if __name__ == "__main__":
     # Set up any important sub-fields in any of the tests.
     # Need to set an example program for simpl.
     example_sets['simpl'].partial_program = """
-fun in, coeffs, n, out ->
-i=0;
-j=0;
+fun arr, arr2, n, m, c, arrout ->
+r=0;
+p=0;
 while(?) {
 ?;
 }
-return out;
+return arrout;
 """
     example_sets['simpl'].int_comps = "0,1"
-    example_sets['simpl'].int_var_comps = 'i, j, n'
-    example_sets['simpl'].array_var_comps = 'in, coeffs, out'
+    example_sets['simpl'].int_var_comps = 'r, p, m, n, c'
+    example_sets['simpl'].array_var_comps = 'arr, arr2, arrout'
 
     base_case = gen_utils.L2Example()
     base_case.add_array_input([], nolen=True)
     base_case.add_array_input([], nolen=True)
+    base_case.add_int_input(0)
+    base_case.add_int_input(0)
     base_case.add_int_input(0)
     base_case.array_output([], nolen=True)
     example_sets['L2'].base_cases = [base_case]

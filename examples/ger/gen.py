@@ -23,9 +23,9 @@ def generate_example():
 def convert(example, example_class, syntool_name):
     example_class.add_int_input(example[0])
     example_class.add_int_input(example[1])
-    example_class.add_array_input(example[2])
-    example_class.add_array_input(example[3])
-    example_class.array_output(example[4])
+    example_class.add_array_input(example[2], nolen=True)
+    example_class.add_array_input(example[3], nolen=True)
+    example_class.array_output(example[4], nolen=True)
 
     return example_class
 
@@ -40,7 +40,7 @@ if __name__ == "__main__":
     # Set up any important sub-fields in any of the tests.
     # Need to set an example program for simpl.
     example_sets['simpl'].partial_program = """
-fun m, n, a, x, y->
+fun m, n, a, x, y ->
 i=0;
 j=0;
 while(?) {
@@ -55,9 +55,9 @@ return y;
     base_case = gen_utils.L2Example()
     base_case.add_int_input(0)
     base_case.add_int_input(0)
-    base_case.add_array_input([])
-    base_case.add_array_input([])
-    base_case.array_output([])
+    base_case.add_array_input([], nolen=True)
+    base_case.add_array_input([], nolen=True)
+    base_case.array_output([], nolen=True)
     example_sets['L2'].base_cases = [base_case]
 
     # Write them out to files.

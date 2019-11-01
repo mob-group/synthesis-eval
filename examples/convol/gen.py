@@ -27,10 +27,10 @@ def generate_example():
 def convert(example, example_class, syntool_name):
     example_class.add_int_input(example[0])
     example_class.add_int_input(example[1])
-    example_class.add_array_input(example[2])
-    example_class.add_array_input(example[3])
+    example_class.add_array_input(example[2], nolen=True)
+    example_class.add_array_input(example[3], nolen=True)
 
-    example_class.array_output(example[4])
+    example_class.array_output(example[4], nolen=True)
 
     return example_class
 
@@ -60,9 +60,9 @@ return arrout;
     base_case = gen_utils.L2Example()
     base_case.add_int_input(0)
     base_case.add_int_input(2)
-    base_case.add_array_input([])
-    base_case.add_array_input([3, 4])
-    base_case.array_output([])
+    base_case.add_array_input([], nolen=True)
+    base_case.add_array_input([3, 4], nolen=True)
+    base_case.array_output([], nolen=True)
     example_sets['L2'].base_cases = [base_case]
 
     # Write them out to files.
