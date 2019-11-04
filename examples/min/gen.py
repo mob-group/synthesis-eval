@@ -5,20 +5,27 @@ import random
 
 
 def generate_example():
-    arrlen = random.randint(1, 20)
-    array = gen_utils.randomintarray(arrlen)
-    n_arr = []
+    len = random.randint(1, 20)
+    array = gen_utils.randomintarray(len, min=-100, max=100)
+    idx = 0
+    min = 1000000
+    for i in range(len):
+        if array[i] < min:
+            min = array[i]
+            idx = i
 
-    for i in range(len(array)):
-        n_arr.append(array[i] * array[i] * array[i] * array[i])
-
-    return (array, n_arr)
+    return (array, idx, min)
 
 
 # This tool is independent of the syntool name.
 def convert(example, example_class, syntool_name):
     example_class.add_array_input(example[0])
-    example_class.in_place_array_output(example[1])
+    if syntool_name == "L2":
+        # L2 is functional so needs an extra return value to keep track of the
+        # min seen so far.
+        example_class.array_output([example[2], example[1]])
+    else:
+        example_class.int_output(example[1])
 
     return example_class
 
@@ -35,18 +42,20 @@ if __name__ == "__main__":
     example_sets['simpl'].partial_program = """
 fun arr, len ->
 n = 0;
-while(?) {
+c = 100000;
+k = 0;
+while (?) {
 ?;
-}
-return arr;
+};
+return c;
 """
-    example_sets['simpl'].int_comps = "0,1,2"
-    example_sets['simpl'].int_var_comps = 'n,len'
+    example_sets['simpl'].int_comps = "0,1"
+    example_sets['simpl'].int_var_comps = 'n,c,len,k'
     example_sets['simpl'].array_var_comps = 'arr'
 
     base_case = gen_utils.L2Example()
     base_case.add_array_input([])
-    base_case.in_place_array_output([])
+    base_case.array_output([1000, -1])
     example_sets['L2'].base_cases = [base_case]
 
     # Write them out to files.

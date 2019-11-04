@@ -23,10 +23,10 @@ def generate_example():
 
 # This tool is independent of the syntool name.
 def convert(example, example_class, syntool_name):
-    example_class.add_int_input(example[0], nolen=True)
-    example_class.add_int_input(example[1], nolen=True)
-    example_class.add_array_input(example[2])
-    example_class.add_array_input(example[3])
+    example_class.add_int_input(example[0])
+    example_class.add_int_input(example[1])
+    example_class.add_array_input(example[2], nolen=True)
+    example_class.add_array_input(example[3], nolen=True)
     example_class.array_output(example[4], nolen=True)
 
     return example_class

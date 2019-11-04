@@ -53,8 +53,8 @@ return arrout;
     base_case = gen_utils.L2Example()
     base_case.add_array_input([], nolen=True)
     base_case.add_array_input([], nolen=True)
-    example_class.add_int_input(0)
-    example_class.add_int_input(0)
+    base_case.add_int_input(0)
+    base_case.add_int_input(0)
     base_case.array_output([], nolen=True)
     example_sets['L2'].base_cases = [base_case]
 
