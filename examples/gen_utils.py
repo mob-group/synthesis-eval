@@ -56,7 +56,7 @@ class Example(object):
         self.add_int_input(i1)
         self.add_int_input(i2)
 
-    def add_array_input(self, arr):
+    def add_array_input(self, arr, nolen=False):
         pass
 
     def add_int_input(self, int):
@@ -67,7 +67,7 @@ class Example(object):
 
     # This sets a single array as the expected output.  Lengths should
     # be specified where appropriate if needed.
-    def array_output(self, arr):
+    def array_output(self, arr, nolen=False):
         pass
 
     # For many languages, this is not possible, so just skip it.
@@ -179,19 +179,20 @@ class SimplExample(Example):
     def __format_arr(self, array):
         return '{' + ','.join([str(x) for x in array]) + '}'
 
-    def add_array_input(self, arr1):
+    def add_array_input(self, arr1, nolen=False):
         self.inputs.append(self.__format_arr(arr1))
-        self.inputs.append(len(arr1))
+        if not nolen:
+            self.inputs.append(len(arr1))
 
     def add_int_input(self, i):
         self.inputs.append(i)
 
-    def array_output(self, arr):
+    def array_output(self, arr, nolen=False):
         self.outputs = [self.__format_arr(arr)]
 
         # We also need to add an array of the same length as an input
         # since there appears to be no way for Simpl to generate an array.
-        self.add_array_input([0] * len(arr))
+        self.add_array_input([0] * len(arr), nolen=nolen)
 
     def in_place_array_output(self, arr):
         # In-place means one of the arguments is going to be reused,
@@ -238,10 +239,11 @@ class MakespeareExample(Example):
         self.length_register_index += 1
         self.__dict__[register] = n
 
-    def add_array_input(self, arr):
+    def add_array_input(self, arr, nolen=False):
         # This is a massive fudge because the input system 'supports' this,
         # but will never figure out how memory is partitioned.
-        self.pass_number(len(arr))
+        if not nolen:
+            self.pass_number(len(arr))
 
         self.input_mem += arr
         self.input_mem_size += len(arr)
@@ -257,8 +259,9 @@ class MakespeareExample(Example):
         self.output_mem = [i]
 
     # Set a single array as the expected output.
-    def array_output(self, arr):
+    def array_output(self, arr, nolen=False):
         self.output_mem_size = len(arr)
+        # There is no way to avoid passing the length here.
         self.output_mem = arr
 
     def __str__(self):
@@ -279,13 +282,13 @@ class L2Example(Example):
     def __format_arr(self, arr):
         return '[' + ' '.join([str(x) for x in arr]) + ']'
 
-    def add_array_input(self, arr):
+    def add_array_input(self, arr, nolen=False):
         self.inputs.append(self.__format_arr(arr))
 
     def add_int_input(self, i):
         self.inputs.append(i)
 
-    def array_output(self, arr):
+    def array_output(self, arr, nolen=False):
         self.outputs = [self.__format_arr(arr)]
 
     def int_output(self, i):
