@@ -130,7 +130,7 @@ if [[ ${#check} -ne 0 ]]; then
 	echo "L2 Out:"
 	tail -n 10 $l2_out
 	echo "Makespeare Out:"
-	tail -n 10 $makespeare_out
+	tail -n 20 $makespeare_out | head -n 10
 	echo "Simpl Out:"
 	tail -n 10 $simpl_out
 fi
