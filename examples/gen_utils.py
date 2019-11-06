@@ -69,6 +69,10 @@ class Example(object):
         arry = self.str_to_array(string)
         self.add_array_input(arry, nolen=True)
 
+    def add_chr_input(self, char):
+        assert len(char) == 1
+        self.add_int_input(ord(char))
+
     def add_array_input(self, arr, nolen=False):
         pass
 
@@ -87,6 +91,9 @@ class Example(object):
     # be specified where appropriate if needed.
     def array_output(self, arr, nolen=False):
         pass
+
+    def char_output(self, char):
+        self.int_output(ord(char))
 
     def string_output(self, string):
         pass
@@ -399,7 +406,11 @@ def randomintarray(len, min=0, max=20):
 
 def randomstring(length):
     arr = []
-    alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHJIKLMNOPQRSTUVWXYZ '
     for i in range(length):
-        arr.append(alphabet[random.randint(0, len(alphabet) - 1)])
+        arr.append(random_char())
     return ''.join(arr)
+
+def random_char():
+    alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHJIKLMNOPQRSTUVWXYZ '
+    return alphabet[random.randint(0, len(alphabet) - 1)]
+
