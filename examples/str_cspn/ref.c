@@ -7,6 +7,7 @@ int str_cspn(char *a, char *b) {
         return c;
       }
     }
+	c ++;
   }
 
   return c;
