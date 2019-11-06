@@ -56,18 +56,39 @@ class Example(object):
         self.add_int_input(i1)
         self.add_int_input(i2)
 
+    def str_to_array(self, string):
+        arry = []
+        for chr in string:
+            assert ord(chr) != 0
+            arry.append(ord(chr))
+        arry.append(0)
+        return arry
+
+    def add_str_input(self, string):
+        # This is just a zero-terminated array, so make it so.
+        arry = self.str_to_array(string)
+        self.add_array_input(arry, nolen=True)
+
     def add_array_input(self, arr, nolen=False):
         pass
 
     def add_int_input(self, int):
         pass
 
-    def add_str_input(self, str):
-        pass
+    def str_output(self, str):
+        array = self.str_to_array(str)
+        self.array_output(array)
+
+    def in_place_str_output(self, str):
+        array = self.str_to_array(str)
+        self.in_place_array_output(array)
 
     # This sets a single array as the expected output.  Lengths should
     # be specified where appropriate if needed.
     def array_output(self, arr, nolen=False):
+        pass
+
+    def string_output(self, string):
         pass
 
     # For many languages, this is not possible, so just skip it.
@@ -374,3 +395,11 @@ def randomintarray(len, min=0, max=20):
         arr.append(random.randint(min, max))
 
     return arr
+
+
+def randomstring(length):
+    arr = []
+    alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHJIKLMNOPQRSTUVWXYZ '
+    for i in range(length):
+        arr.append(alphabet[random.randint(0, len(alphabet) - 1)])
+    return ''.join(arr)
