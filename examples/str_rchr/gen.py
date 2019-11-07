@@ -6,23 +6,23 @@ import random
 
 def generate_example():
     len = random.randint(1, 20)
-    elem_index = random.randint(0, len - 1)
-    string = gen_utils.randomstring(len)
-    should_contain = random.randint(0, 1)
+    string = list(gen_utils.randomstring(len))
+    starting_ind_count = random.randint(0, len // 2)
 
-    if should_contain == 1:
-        elem = string[elem_index]
-    else:
-        elem = string[0]
-        tries = 0
-        while elem in string:
-            tries += 1
-            elem = gen_utils.random_char()
-            if tries == 100:
-                should_contain = 1
-                break
+    starting_char = string[0]
+    replacement_char = starting_char
+    while replacement_char == starting_char:
+        replacement_char = gen_utils.random_char()
 
-    return (string, elem, should_contain)
+    for i in range(0, starting_ind_count):
+        string[i] = starting_char
+
+    # Make sure the next char is not the same as the
+    # ones we are looking at.
+    if string[starting_ind_count] == starting_char:
+        string[starting_ind_count] = replacement_char
+
+    return (''.join(string), starting_char, starting_ind_count)
 
 
 # This tool is independent of the syntool name.
@@ -54,7 +54,7 @@ return c;
 """
     example_sets['simpl'].int_comps = "0,1"
     example_sets['simpl'].int_var_comps = 'n,c,elem'
-    example_sets['simpl'].array_var_comps = 'chr'
+    example_sets['simpl'].array_var_comps = 'str'
 
     base_case = gen_utils.L2Example()
     base_case.add_array_input([])

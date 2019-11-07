@@ -11,7 +11,7 @@ def generate_example():
     n_arr = []
 
     for i in range(len(array)):
-        n_arr.append(array[i] + other_array[i])
+        n_arr.append(array[i] - other_array[i])
 
     return (array, other_array, n_arr)
 
@@ -43,13 +43,13 @@ while(?) {
 return arr;
 """
     example_sets['simpl'].int_comps = "0,1,2"
-    example_sets['simpl'].int_var_comps = 'n,len,otherlen, outlen'
-    example_sets['simpl'].array_var_comps = 'arr,otherarray, outarr'
+    example_sets['simpl'].int_var_comps = 'n,len,otherlen,outlen'
+    example_sets['simpl'].array_var_comps = 'arr,otherarray,outarr'
 
     base_case = gen_utils.L2Example()
     base_case.add_array_input([])
     base_case.add_array_input([])
-    base_case.in_place_array_output([])
+    base_case.array_output([])
     example_sets['L2'].base_cases = [base_case]
 
     # Write them out to files.
