@@ -19,4 +19,4 @@ fi
 
 source_file=$(realpath "$example/ref.c")
 
-cc -fPIC -shared "$source_file" -o "${source_file%.c}.so"
+cc -std=c99 -fPIC -shared "$source_file" -o "${source_file%.c}.so"
