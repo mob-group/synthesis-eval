@@ -1,2 +1,3 @@
 void vabs(int *arr, int n)
+output arr
 size arr, n
