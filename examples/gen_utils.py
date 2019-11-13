@@ -64,9 +64,19 @@ class Example(object):
         arry.append(0)
         return arry
 
-    def add_str_input(self, string):
+    def add_str_input(self, string, tail_length=0):
         # This is just a zero-terminated array, so make it so.
         arry = self.str_to_array(string)
+
+        if tail_length > 0:
+            # Makespeare and L2 can 'cheat' where they know
+            # where the end of the array is because they
+            # know (Makespeare) how long memory is or because
+            # they have empty list checks (L2).
+            # This makes string operations harder, but 
+            # aguably fairer for them where it's nessecary.
+            arry += [0] * tail_length
+
         self.add_array_input(arry, nolen=True)
 
     def add_chr_input(self, char):
