@@ -62,6 +62,7 @@ check_l2() {
 	local output_file=$1
 	local results_file=$2
 	local timed_out=$3
+	local runtime=$4
 
 	count=$(grep -e 'Found solution:' $output_file -c || true)
 	if [[ $count -ne 0 ]]; then
@@ -71,12 +72,14 @@ check_l2() {
 	else
 		echo "L2: failed" >> $results_file
 	fi
+	echo "Time to do so (L2): $runtime" >> $results_file
 }
 
 check_makespeare() {
 	local output_file=$1
 	local results_file=$2
 	local timed_out=$3
+	local runtime=$4
 
 	count=$(grep -e 'Fully correct on training set' $output_file -c || true)
 
@@ -87,12 +90,14 @@ check_makespeare() {
 	else
 		echo "makespeare: failed" >> $results_file
 	fi
+	echo "Time to do so (makespeare): $runtime" >> $results_file
 }
 
 check_simpl() {
 	local output_file=$1
 	local results_file=$2
 	local timed_out=$3
+	local runtime=$4
 
 	count=$(grep -e ' COMPLETE PROGRAM' $output_file -c || true)
 
@@ -103,6 +108,7 @@ check_simpl() {
 	else
 		echo "simpl: failed" >> $results_file
 	fi
+	echo "Time to do so (simpl): $runtime" >> $results_file
 }
 
 timeout_check() {
@@ -112,7 +118,7 @@ timeout_check() {
 	local end_time=$2
 	local timeout_time=$3
 
-	if (( $end_time - $start_time > $timeout_time )); then
+	if (( $end_time - $start_time >= $timeout_time )); then
 		# timeout
 		echo 1
 	else
@@ -122,9 +128,9 @@ timeout_check() {
 
 results_file=examples/$test/results
 echo "" -n > $results_file
-check_l2 $l2_out $results_file $(timeout_check $start_time $l2_end $l2_timeout)
-check_makespeare $makespeare_out $results_file $(timeout_check $start_time $makespeare_end $makespeare_timeout)
-check_simpl $simpl_out $results_file $(timeout_check $start_time $simpl_end $simpl_timeout)
+check_l2 $l2_out $results_file $(timeout_check $start_time $l2_end $l2_timeout) $(( l2_end - start_time ))
+check_makespeare $makespeare_out $results_file $(timeout_check $start_time $makespeare_end $makespeare_timeout) $(( makespeare_end - start_time ))
+check_simpl $simpl_out $results_file $(timeout_check $start_time $simpl_end $simpl_timeout) $(( simpl_end - start_time ))
 
 if [[ ${#check} -ne 0 ]]; then
 	echo "L2 Out:"
