@@ -16,6 +16,7 @@ echo "Cloning makespeare..."
 
 git clone https://github.com/ChristopherRosin/MAKESPEARE.git "$MSP_DIR"
 cd "$MSP_DIR"
+git checkout 734873e2
 
 curl -L --output luajit.tar.gz https://luajit.org/download/LuaJIT-2.1.0-beta3.tar.gz
 tar xvf luajit.tar.gz

@@ -16,6 +16,7 @@ echo "Cloning L2..."
 
 git clone https://github.com/jfeser/L2.git "$L2_DIR"
 cd "$L2_DIR"
+git checkout 1ed1abaa
 
 echo "Building L2..."
 

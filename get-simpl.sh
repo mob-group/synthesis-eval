@@ -16,6 +16,7 @@ echo "Cloning simpl..."
 
 git clone https://github.com/kupl/SimplPublic.git "$SIMPL_DIR"
 cd "$SIMPL_DIR"
+git checkout 881268fd
 
 echo "Building simpl..."
 
