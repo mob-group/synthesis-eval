@@ -46,7 +46,7 @@ while(?) {
 all = 0;
 ?;
 }
-return ourarr;
+return outarr;
 """
     example_sets['simpl'].int_comps = "0,1,2"
     example_sets['simpl'].int_var_comps = 'graphsize, i, j, all'
