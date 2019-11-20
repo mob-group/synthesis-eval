@@ -45,6 +45,11 @@ while(?) {
 }
 return str2;
 """
+    example_sets['simpl'].empty_partial_program = """
+fun str1, str2, maxcpy ->
+?;
+return str2;
+"""
     example_sets['simpl'].int_comps = "0,1"
     example_sets['simpl'].int_var_comps = 'r, n, maxcpy'
     example_sets['simpl'].array_var_comps = 'str1, str2'

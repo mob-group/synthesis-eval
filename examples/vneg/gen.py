@@ -41,6 +41,11 @@ while(?) {
 }
 return arr;
 """
+    example_sets['simpl'].empty_partial_program = """
+fun arr, len ->
+?;
+return arr;
+"""
     example_sets['simpl'].int_comps = "0,1"
     example_sets['simpl'].int_var_comps = 'len, r'
     example_sets['simpl'].array_var_comps = 'arr'

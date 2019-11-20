@@ -1,3 +1,4 @@
+import argparse
 import json
 import random
 
@@ -16,6 +17,8 @@ TYPE_LENGTHS = {
         'makespeare': MAX_MAKESPEARE
 }
 MAX = max(TYPE_LENGTHS.values())
+# Do not assign here.  This is set via the --no-help flag.  See the args() function.
+NO_HELP_MODE = False
 
 # This is a list of the supported synthesis program types.
 TYPES = ["L2", "makespeare", "simpl"] # TODO -- Add PLDI and Baseline once those are supported.
@@ -148,6 +151,7 @@ class Simpl(ExampleSet):
         self.array_var_comps = "none"
 
     def __str__(self):
+        program_to_use = self.empty_partial_program if NO_HELP_MODE else self.partial_program
         return """Examples
 {example}
 
@@ -161,7 +165,7 @@ Int Var Comps
 {vars}
 
 Array Var Comps
-{arrays}""".format(example=super(Simpl, self).__str__(), prog=self.partial_program, ints=self.int_comps, vars=self.int_var_comps, arrays=self.array_var_comps)
+{arrays}""".format(example=super(Simpl, self).__str__(), prog=program_to_use, ints=self.int_comps, vars=self.int_var_comps, arrays=self.array_var_comps)
 
 
 class L2(ExampleSet):
@@ -176,13 +180,14 @@ class L2(ExampleSet):
 
 
     def __str__(self):
+        base_cases_to_use = [] if NO_HELP_MODE else self.base_cases
         self_dict = {
                 'name': self.name,
                 'kind': self.kind,
                 'description': self.description,
                 'background': self.background,
                 'contents': {
-                    'examples': [str(ex) for ex in self.base_cases] + [str(ex) for ex in self.examples]
+                    'examples': [str(ex) for ex in base_cases_to_use] + [str(ex) for ex in self.examples]
                 }
         }
         return json.dumps(self_dict)
@@ -254,6 +259,15 @@ class MakespeareExample(Example):
         self.r0 = 0
         self.r8 = 0
         self.r9 = 0
+        if NO_HELP_MODE:
+            # Fill the registers with junk.  Meaningful values will
+            # be placed in some registers when requierd.
+            self.r7 = 14321
+            self.r6 = 587
+            self.r2 = 8320
+            self.r0 = 7
+            self.r8 = 92
+            self.r9 = 29805
         self.input_mem_size = 0
         self.input_mem = []
         self.scalar_ret_flag = 0
@@ -270,6 +284,8 @@ class MakespeareExample(Example):
         # Note that there is no r6, as Makespeare is best helped
         # by putting len(memory - 1) in that.
         reg_list = ['r7', 'r2', 'r0', 'r8', 'r9']
+        if NO_HELP_MODE:
+            reg_list = ['r8', 'r7', 'r0', 'r9', 'r2']
         if self.length_register_index > len(reg_list):
             raise Exception("Makespear example was passed too many arguments.  Got " + str(self.length_register_index) + " but have a max of " + str(len(reg_list)))
         register = reg_list[self.length_register_index]
@@ -424,3 +440,13 @@ def random_char():
     alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHJIKLMNOPQRSTUVWXYZ '
     return alphabet[random.randint(0, len(alphabet) - 1)]
 
+
+def handle_args():
+    parser = argparse.ArgumentParser(description="If you have to edit this, it's called when gen_utils is imported")
+    parser.add_argument('--no-help', dest='no_help', default=False, action='store_true')
+
+    args = parser.parse_args()
+    global NO_HELP_MODE
+    NO_HELP_MODE = args.no_help
+
+handle_args()

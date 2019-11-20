@@ -47,6 +47,11 @@ while(?) {
 }
 return out;
 """
+    example_sets['simpl'].empty_partial_program = """
+fun in, coeffs, n, out ->
+?;
+return out;
+"""
     example_sets['simpl'].int_comps = "0,1"
     example_sets['simpl'].int_var_comps = 'i, j, n'
     example_sets['simpl'].array_var_comps = 'in, coeffs, out'

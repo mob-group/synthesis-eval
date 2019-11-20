@@ -50,6 +50,11 @@ while(?) {
 }
 return y;
 """
+    example_sets['simpl'].empty_partial_program = """
+fun m, n, a, x, y ->
+?;
+return y;
+"""
     example_sets['simpl'].int_comps = "0,1"
     example_sets['simpl'].int_var_comps = 'm, n, i, j'
     example_sets['simpl'].array_var_comps = 'a, x, y'

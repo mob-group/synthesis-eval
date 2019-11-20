@@ -46,6 +46,11 @@ while(?) {
 }
 return out;
 """
+    example_sets['simpl'].empty_partial_program = """
+fun x, xlen, y, ylen, alpha, n, out, outlen ->
+?;
+return out;
+"""
     example_sets['simpl'].int_comps = "0,1"
     example_sets['simpl'].int_var_comps = 'xlen, ylen, alpha, n, outlen, i'
     example_sets['simpl'].array_var_comps = 'x, y, out'

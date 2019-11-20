@@ -42,6 +42,11 @@ while(?) {
 }
 return resarr;
 """
+    example_sets['simpl'].empty_partial_program = """
+fun n, resarr ->
+?;
+return resarr;
+"""
     example_sets['simpl'].int_comps = "0,10"
     example_sets['simpl'].int_var_comps = 'n'
     example_sets['simpl'].array_var_comps = 'resarr'

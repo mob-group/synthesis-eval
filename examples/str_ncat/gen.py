@@ -51,6 +51,11 @@ while(?){
 };
 return strout;
 """
+    example_sets['simpl'].empty_partial_program = """
+fun str1, str2, lenapp, strout ->
+?;
+return strout;
+"""
     example_sets['simpl'].int_comps = "0,1"
     example_sets['simpl'].int_var_comps = 'n,c,lenapp'
     example_sets['simpl'].array_var_comps = 'str1, str2, strout'

@@ -53,6 +53,11 @@ while(?) {
 }
 return arrout;
 """
+    example_sets['simpl'].empty_partial_program = """
+fun m, k, marr, karr, arrout ->
+?;
+return arrout;
+"""
     example_sets['simpl'].int_comps = "0,1,2,3"
     example_sets['simpl'].int_var_comps = 'i, j, m, k'
     example_sets['simpl'].array_var_comps = 'marr, karr, arrout'

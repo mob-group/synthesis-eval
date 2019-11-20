@@ -35,6 +35,11 @@ while(?) {
 }
 return r;
 """
+    example_sets['simpl'].empty_partial_program = """
+fun a, n ->
+?;
+return r;
+"""
     example_sets['simpl'].int_comps = "0"
     example_sets['simpl'].int_var_comps = 'a, n, r'
 
