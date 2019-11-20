@@ -2,8 +2,8 @@
 
 set -eu
 
-typeset -a check
-zparseopts -D -E -- -check=check
+typeset -a check no_help
+zparseopts -D -E -- -check=check -no-help=no_help
 if [[ $# -ne 1 ]]; then
 	echo "Usage: $0 <test name>"
 	echo "Optional: --check (only run for 5 seconds to make sure input formats are OK)"
@@ -19,8 +19,13 @@ if [[ ! -f examples/$test/gen.py ]]; then
 	exit 1
 fi
 
+typeset -a flags
+if [[ ${#no_help} -gt 0 ]]; then
+	flags+=(--no-help)
+fi
+
 pushd examples/$test
-python3 gen.py
+python3 gen.py ${flags[@]}
 popd
 
 if [[ ${#check} -eq 0 ]]; then

@@ -10,6 +10,7 @@ help() {
 	echo "It puts the results in each directory"
 	echo "Specify tests with --test <name>, or run all with --all"
 	echo "Or, specify a file with test names using --test-file <filename>, using space separated test names"
+	echo "Use the --no-help flag to run the synthesizers with reduced input (e.g. empty program sketches in Simpl"
 }
 
 if [[ $# -eq 0 ]]; then
@@ -17,8 +18,8 @@ if [[ $# -eq 0 ]]; then
 	exit 0
 fi
 
-typeset -a run_all run_tests test_files
-zparseopts -D -E -- -all=run_all -test+:=run_tests -test-file+:=test_files
+typeset -a run_all run_tests test_files no_help
+zparseopts -D -E -- -all=run_all -test+:=run_tests -test-file+:=test_files -no-help=no_help
 
 if [[ $# -ne 0 ]]; then
 	help
@@ -71,9 +72,14 @@ total_threads=$(( $makespeare_threads + 1 + 1 ))
 # so NumberJobs = Total / NumberPerJob.  Then, FractionRunning = 1 / NumberPerJob.
 percent=$(( 100.0 / $total_threads ))
 
+flags=""
+if [[ ${#no_help} -eq 0 ]]; then
+	flags="$flags --no-help"
+fi
+
 if [[ ${#tests_to_run} -gt 0 ]]; then
 	set -x
-	parallel --line-buffer -j${percent%.*}% "echo 'starting test {}'; ./__run.sh {}; echo 'test {} done'" ::: ${tests_to_run[@]}
+	parallel --line-buffer -j${percent%.*}% "echo 'starting test {}'; ./__run.sh $flags {}; echo 'test {} done'" ::: ${tests_to_run[@]}
 else
 	help
 	exit 0
