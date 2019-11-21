@@ -8,6 +8,7 @@ if [[ $# -ne 1 ]]; then
 	echo "Usage: $0 <test name>"
 	echo "Optional: --check (only run for 5 seconds to make sure input formats are OK)"
 	echo "SHOULD NOT BE USED DIRECTLY: Use run-all.sh instead!"
+	exit 1
 fi
 source utils.sh
 
@@ -131,7 +132,11 @@ timeout_check() {
 	fi
 }
 
-results_file=examples/$test/results
+if [[ ${#no_help} -gt 0 ]]; then
+	results_file=examples/$test/results_no_help
+else
+	results_file=examples/$test/results
+fi
 echo "" -n > $results_file
 check_l2 $l2_out $results_file $(timeout_check $start_time $l2_end $l2_timeout) $(( l2_end - start_time ))
 check_makespeare $makespeare_out $results_file $(timeout_check $start_time $makespeare_end $makespeare_timeout) $(( makespeare_end - start_time ))
