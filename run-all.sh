@@ -72,14 +72,14 @@ total_threads=$(( $makespeare_threads + 1 + 1 ))
 # so NumberJobs = Total / NumberPerJob.  Then, FractionRunning = 1 / NumberPerJob.
 percent=$(( 100.0 / $total_threads ))
 
-flags=""
-if [[ ${#no_help} -eq 0 ]]; then
-	flags="$flags --no-help"
+typeset -a flags
+if [[ ${#no_help} -gt 0 ]]; then
+	flags+=(--no-help)
 fi
 
 if [[ ${#tests_to_run} -gt 0 ]]; then
 	set -x
-	parallel --line-buffer -j${percent%.*}% "echo 'starting test {}'; ./__run.sh $flags {}; echo 'test {} done'" ::: ${tests_to_run[@]}
+	parallel --line-buffer -j${percent%.*}% "echo 'starting test {}'; ./__run.sh ${flags[@]} {}; echo 'test {} done'" ::: ${tests_to_run[@]}
 else
 	help
 	exit 0
