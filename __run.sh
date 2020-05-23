@@ -33,30 +33,37 @@ if [[ ${#check} -eq 0 ]]; then
 	makespeare_timeout=$(get_config_value makespeare_timeout)
 	l2_timeout=$(get_config_value l2_timeout)
 	simpl_timeout=$(get_config_value simpl_timeout)
+	sketchadapt_timeout=$(get_config_value sketchadapt_timeout)
 else
 	makespeare_timeout=5
 	l2_timeout=5
 	simpl_timeout=5
+	sketchadapt_timeout=5
 fi
 
 makespeare_out=examples/$test/makespeare_out
 l2_out=examples/$test/L2_out
 simpl_out=examples/$test/simpl_out
+sketchadapt_out=examples/$test/sketchadapt_out
 
 tmp_makespeare_file=$(mktemp /tmp/syntheval.XXXXXX)
 tmp_l2_file=$(mktemp /tmp/syntheval.XXXXXX)
 tmp_simpl_timeout_file=$(mktemp /tmp/syntheval.XXXXXX)
+tmp_sketchadapt_timeout_file=$(mktmp /tmp/syntheval.XXXXXX)
 
 start_time=$( date '+%s')
 ( timeout -s TERM $makespeare_timeout ./run-makespeare.sh $test $makespeare_timeout &> $makespeare_out || true; echo $(date '+%s') > $tmp_makespeare_file) &
 (timeout -s TERM $l2_timeout ./run-L2.sh $test &> $l2_out || true; echo $( date '+%s') > $tmp_l2_file ) &
 (timeout -s TERM $simpl_timeout ./run-simpl.sh $test &> $simpl_out || true; echo $( date '+%s') > $tmp_simpl_timeout_file) &
 
+(timeout -s TERM $sketchadapt_timeout ./run-sketchadapt.sh $test &> $sketchadapt_out || true; echo $( date '+%s') > $tmp_sketchadapt_timeout_file) &
+
 wait
 
 makespeare_end=$(cat $tmp_makespeare_file)
 l2_end=$(cat $tmp_l2_file)
 simpl_end=$(cat $tmp_simpl_timeout_file)
+sketchadapt_end=$(cat $tmp_sketchadapt_timeout_file)
 
 # rm $tmp_makespeare_file $tmp_l2_file $tmp_simpl_timeout_file
 
@@ -117,6 +124,16 @@ check_simpl() {
 	echo "Time to do so (simpl): $runtime" >> $results_file
 }
 
+check_sketchadapt() {
+	local output_file=$1
+	local results_file=$2
+	local timed_out=$3
+	local runtime=$4
+
+	TODO
+	echo "Time to do so (sketchadapt): $runtime" >> $results_file
+}
+
 timeout_check() {
 	# Print whether the window of time exceeds the timeout
 	# time.
@@ -141,6 +158,7 @@ echo "" -n > $results_file
 check_l2 $l2_out $results_file $(timeout_check $start_time $l2_end $l2_timeout) $(( l2_end - start_time ))
 check_makespeare $makespeare_out $results_file $(timeout_check $start_time $makespeare_end $makespeare_timeout) $(( makespeare_end - start_time ))
 check_simpl $simpl_out $results_file $(timeout_check $start_time $simpl_end $simpl_timeout) $(( simpl_end - start_time ))
+check_sketchadapt $sketchadapt_out $results_file $(timeout_check $start_time $sketchadapt_end $sketchadapt_timeout) $(( sketchadapt_end - start_time ))
 
 if [[ ${#check} -ne 0 ]]; then
 	echo "L2 Out:"
@@ -149,4 +167,6 @@ if [[ ${#check} -ne 0 ]]; then
 	tail -n 20 $makespeare_out | head -n 10
 	echo "Simpl Out:"
 	tail -n 10 $simpl_out
+	echo "SketchAdapt Out:"
+	tail -n 10 $sketchadapt_out
 fi

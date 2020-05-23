@@ -6,7 +6,7 @@ source utils.sh
 zmodload zsh/mathfunc
 
 help() {
-	echo "This script runs Makespeare, L2 and Simpl on a specified example."
+	echo "This script runs Makespeare, L2, sketchadapt and Simpl on a specified example."
 	echo "It puts the results in each directory"
 	echo "Specify tests with --test <name>, or run all with --all"
 	echo "Or, specify a file with test names using --test-file <filename>, using space separated test names"
