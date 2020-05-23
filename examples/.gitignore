@@ -6,3 +6,4 @@
 *.pyc
 */*_out
 */results
+*/results_no_help

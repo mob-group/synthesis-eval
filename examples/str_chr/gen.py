@@ -59,7 +59,7 @@ return c;
 """
     example_sets['simpl'].int_comps = "0,1"
     example_sets['simpl'].int_var_comps = 'n,c,elem'
-    example_sets['simpl'].array_var_comps = 'chr'
+    example_sets['simpl'].array_var_comps = 'str'
 
     base_case = gen_utils.L2Example()
     base_case.add_array_input([])
