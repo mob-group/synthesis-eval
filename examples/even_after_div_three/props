@@ -1,0 +1,2 @@
+int even_after_div_three(int *arr, int n, int drop)
+size arr, n

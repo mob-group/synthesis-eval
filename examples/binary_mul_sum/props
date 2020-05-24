@@ -1,0 +1,3 @@
+int binary_mul_sum(int *arr1, int *arr2, int n)
+size arr1, n
+size arr2, n
