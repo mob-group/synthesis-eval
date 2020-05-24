@@ -1,6 +1,8 @@
+from type import Context, arrow, tint, tlist, UnificationFailure
 import argparse
 import json
 import random
+import pickle
 
 # These constants represent the number of examples that we should present to each
 # type of synthesis tool.
@@ -9,19 +11,21 @@ MAX_SIMPL = 10
 MAX_L2 = 10
 MAX_PLDI = 10 # TODO
 MAX_BASELINE = 10 # TODO
+MAX_SKETCH_ADAPT = 10
 TYPE_LENGTHS = {
         'simpl': MAX_SIMPL,
         'L2': MAX_L2,
         'PLDI': MAX_PLDI,
         'Baseline': MAX_BASELINE,
-        'makespeare': MAX_MAKESPEARE
+        'makespeare': MAX_MAKESPEARE,
+        'SketchAdapt': MAX_SKETCH_ADAPT
 }
 MAX = max(TYPE_LENGTHS.values())
 # Do not assign here.  This is set via the --no-help flag.  See the args() function.
 NO_HELP_MODE = False
 
 # This is a list of the supported synthesis program types.
-TYPES = ["L2", "makespeare", "simpl"] # TODO -- Add PLDI and Baseline once those are supported.
+TYPES = ["L2", "makespeare", "simpl", "SketchAdapt"] # TODO -- Add PLDI and Baseline once those are supported.
 
 
 # This is a set of classes that help formatting everything to the right output.
@@ -84,8 +88,7 @@ class Example(object):
 
     def add_chr_input(self, char):
         assert len(char) == 1
-        self.add_int_input(ord(char))
-
+        self.add_int_input(ord(char)) 
     def add_array_input(self, arr, nolen=False):
         pass
 
@@ -122,6 +125,45 @@ class Example(object):
     def __format_arr(self, arr):
         return arr
 
+
+# A list of sketcadapt examples.
+class SketchAdapt(ExampleSet):
+    def __init__(self):
+        super(SketchAdapt, self).__init__()
+        self.type = "SketchAdapt"
+
+    def write(self, filename):
+        examples = self.convert_examples_to_datum()
+        with open(filename, 'wb') as f:
+            pickle.dump(examples, f)
+
+    def convert_examples_to_datum(self):
+        # Get the type first:
+        funtype = self.examples[0].typeof()
+        ioexamples = []
+        for example in self.examples:
+            inputs = example.inputs
+            outputs = example.outputs[0]
+            non_int = False
+            for inp in inputs:
+                if type(inp) != type(1):
+                    non_int = True
+
+            print("Warning: converting type for SketchAdapt to avoid int->int")
+            # This is all integers, so transform it into a list.
+            if not non_int:
+                inputs = (list(example.inputs),)
+                print(inputs)
+                funtype = arrow(tlist(tint), self.examples[0].outtype)
+
+            ioexamples.append((inputs, outputs))
+        ioexamples = tuple(ioexamples)
+
+        datum = Datum(funtype, None, None, ioexamples, None, None, None, None)
+        return datum
+
+    def __str__(self):
+        print("Should not be calling SketchAdap.__str__")
 
 # A list of makespeare examples: this one is just an empty body.
 class Makespeare(ExampleSet):
@@ -210,6 +252,63 @@ class PLDIExample(Example):
 
 class BaselineExample(Example):
     pass
+
+# This is a datatype class used by the deepcoder data pickle files.
+class Datum():
+    def __init__(self, tp, p, pseq, IO, sketch, sketchseq, reward, sketchprob):
+        self.tp = tp
+        self.p = p
+        self.pseq = pseq
+        self.IO = IO
+        self.sketch = sketch
+        self.sketchseq = sketchseq
+        self.reward = reward
+        self.sketchprob = sketchprob
+
+    def __hash__(self): 
+        return reduce(lambda a, b: hash(a + hash(b)), flatten(self.IO), 0) + hash(self.p) + hash(self.sketch)
+
+
+class SketchAdaptExample(Example):
+    def __init__(self):
+        super(SketchAdaptExample).__init__()
+        self.inputs = []
+        self.outputs = []
+
+        self.intype = []
+        self.outtype = None
+
+    def add_array_input(self, arr1, nolen=False):
+        self.intype.append(tlist(tint))
+        if nolen:
+            self.inputs.append(arr1)
+        else:
+            self.inputs.append(arr1)
+            self.add_int_input(len(arr1))
+            self.intype.append(tint)
+
+    def add_int_input(self, i):
+        self.inputs.append(i)
+        self.intype.append(tint)
+
+    def array_output(self, arr, nolen=False):
+        self.outputs = [arr]
+        self.outtype = tlist(tint)
+
+    def int_output(self, i):
+        self.outputs = [i]
+        self.outtype = tint
+
+    def typeof(self):
+        thetype = self.outtype
+        for t in self.intype[::-1]:
+            thetype = arrow(t, thetype)
+
+        return thetype
+
+    def __str__(self):
+        print("SketchAdapt should be converted to pickel not a string")
+        raise Error()
 
 
 class SimplExample(Example):
@@ -373,6 +472,8 @@ def empty_set_gen(type):
         return PLDI()
     elif type == "Baseline":
         return Baseline()
+    elif type == "SketchAdapt":
+        return SketchAdapt()
     else:
         raise Error("Unsupported type " + type + " in the empty_set_gen function")
 
@@ -388,6 +489,8 @@ def empty_example_gen(type):
         return PLDIExample()
     elif type == "Baseline":
         return BaselineExample()
+    elif type == "SketchAdapt":
+        return SketchAdaptExample()
     else:
         raise Error("Unsupported type " + type + " in the empty_example_gen function")
 
