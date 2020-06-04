@@ -1,0 +1,4 @@
+bool eq(int *a, int *b, int n)
+size a, n
+size b, n
+output b
