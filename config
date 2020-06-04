@@ -6,3 +6,4 @@ makespeare_seeds: 20
 # L2 and Simpl are faster, so get a bit less, 20 minutes
 l2_timeout: 1200
 simpl_timeout: 1200
+sketchadapt_timeout: 1200
