@@ -3,6 +3,7 @@ sys.path.insert(1, '..')
 import gen_utils
 import random
 
+gen_utils.handle_args()
 
 def generate_example():
     M = int(random.randint(2, 20))

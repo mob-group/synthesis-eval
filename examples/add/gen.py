@@ -3,16 +3,18 @@ sys.path.insert(1, '..')
 import gen_utils
 import random
 
+gen_utils.handle_args()
+
 
 def generate_example():
     array_len = random.randint(1, 30)
 
     arr1 = []
-    diff = random.randint(0, 100)
+    diff = random.randint(0, 10)
     res = []
 
     for i in range(array_len):
-        n = random.randint(-100, 100)
+        n = random.randint(-10, 10)
         arr1.append(n)
         res.append(n + diff)
 
