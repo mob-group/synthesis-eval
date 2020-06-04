@@ -130,7 +130,15 @@ check_sketchadapt() {
 	local timed_out=$3
 	local runtime=$4
 
-	TODO
+	count=$(grep -e '100.0' $output_file -c || true)
+
+	if [[ $count -ne 0 ]]; then
+		echo "SketchAdapt: success" >> $results_file
+	elif [[ $timed_out == 1 ]]; then
+		echo "SketchAdapt: timeout" >> $results_file
+	else
+		echo "SketchAdapt: failed" >> $results_file
+	fi
 	echo "Time to do so (sketchadapt): $runtime" >> $results_file
 }
 
