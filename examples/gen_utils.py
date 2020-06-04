@@ -1,4 +1,5 @@
 from type import Context, arrow, tint, tlist, UnificationFailure
+from functools import reduce
 import argparse
 import json
 import random
@@ -149,9 +150,9 @@ class SketchAdapt(ExampleSet):
                 if type(inp) != type(1):
                     non_int = True
 
-            print("Warning: converting type for SketchAdapt to avoid int->int")
             # This is all integers, so transform it into a list.
             if not non_int:
+                print("Warning: converting type for SketchAdapt to avoid int->int")
                 inputs = (list(example.inputs),)
                 print(inputs)
                 funtype = arrow(tlist(tint), self.examples[0].outtype)
@@ -160,7 +161,7 @@ class SketchAdapt(ExampleSet):
         ioexamples = tuple(ioexamples)
 
         datum = Datum(funtype, None, None, ioexamples, None, None, None, None)
-        return datum
+        return [datum]
 
     def __str__(self):
         print("Should not be calling SketchAdap.__str__")
@@ -266,6 +267,7 @@ class Datum():
         self.sketchprob = sketchprob
 
     def __hash__(self): 
+        from utilities import flatten
         return reduce(lambda a, b: hash(a + hash(b)), flatten(self.IO), 0) + hash(self.p) + hash(self.sketch)
 
 
@@ -285,7 +287,6 @@ class SketchAdaptExample(Example):
         else:
             self.inputs.append(arr1)
             self.add_int_input(len(arr1))
-            self.intype.append(tint)
 
     def add_int_input(self, i):
         self.inputs.append(i)
@@ -543,7 +544,6 @@ def random_char():
     alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHJIKLMNOPQRSTUVWXYZ '
     return alphabet[random.randint(0, len(alphabet) - 1)]
 
-
 def handle_args():
     parser = argparse.ArgumentParser(description="If you have to edit this, it's called when gen_utils is imported")
     parser.add_argument('--no-help', dest='no_help', default=False, action='store_true')
@@ -551,5 +551,3 @@ def handle_args():
     args = parser.parse_args()
     global NO_HELP_MODE
     NO_HELP_MODE = args.no_help
-
-handle_args()
