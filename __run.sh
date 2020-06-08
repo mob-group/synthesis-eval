@@ -46,10 +46,19 @@ l2_out=examples/$test/L2_out
 simpl_out=examples/$test/simpl_out
 sketchadapt_out=examples/$test/sketchadapt_out
 
-tmp_makespeare_file=$(mktemp /tmp/syntheval.XXXXXX)
-tmp_l2_file=$(mktemp /tmp/syntheval.XXXXXX)
-tmp_simpl_timeout_file=$(mktemp /tmp/syntheval.XXXXXX)
-tmp_sketchadapt_timeout_file=$(mktmp /tmp/syntheval.XXXXXX)
+function tmpfile() {
+	f=/tmp/syntheval.$(echo $RANDOM)
+	while [[ -f $f ]]; do
+		f=/tmp/syntheval.$(echo $RANDOM)
+	done
+
+	echo $f
+}
+
+tmp_makespeare_file=$(tmpfile)
+tmp_l2_file=$(tmpfile)
+tmp_simpl_timeout_file=$(tmpfile)
+tmp_sketchadapt_timeout_file=$(tmpfile)
 
 start_time=$( date '+%s')
 ( timeout -s TERM $makespeare_timeout ./run-makespeare.sh $test $makespeare_timeout &> $makespeare_out || true; echo $(date '+%s') > $tmp_makespeare_file) &

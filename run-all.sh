@@ -27,9 +27,10 @@ if [[ $# -ne 0 ]]; then
 fi
 
 typeset -a tests
-if [[ ${#run_all} -gt 1 ]]; then
+if [[ ${#run_all} -gt 0 ]]; then
 	# Get all the tests in examples.
-	tests=( $(find -wholename "*examples/*" -type d) )
+	echo "Running all"
+	tests=( $(find -wholename "*examples/*" -type d | sed 's#.*/##' | grep -v __pycache__) )
 else
 	for arg in ${run_tests[@]}; do
 		if [[ $arg != "--test" ]]; then
