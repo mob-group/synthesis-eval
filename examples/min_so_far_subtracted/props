@@ -1,0 +1,5 @@
+void min_so_far_subtracted(int *arr, int *arr2, int *result, int n)
+size arr, n
+size arr2, n
+size result, n
+output result

@@ -1,0 +1,3 @@
+int sum_of_lists_multiplied_after_dividing_by_three(int *arr, int *arr2, int n)
+size arr, n
+size arr2, n
