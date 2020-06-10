@@ -6,10 +6,10 @@ import random
 gen_utils.handle_args()
 
 def generate_example():
-    array_len = random.randint(1, 30)
+    array_len = random.randint(1, 4)
 
-    arr1 = gen_utils.randomintarray(array_len)
-    arr2 = gen_utils.randomintarray(array_len)
+    arr1 = gen_utils.randomintarray(array_len, min=-3, max=3)
+    arr2 = gen_utils.randomintarray(array_len, min=-3, max=3)
     res = 0
 
     for i in range(array_len):

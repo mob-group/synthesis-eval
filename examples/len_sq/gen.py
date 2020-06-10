@@ -7,8 +7,8 @@ import math
 gen_utils.handle_args()
 
 def generate_example():
-    array_len = random.randint(1, 30)
-    arr = gen_utils.randomintarray(array_len)
+    array_len = random.randint(1, 3)
+    arr = gen_utils.randomintarray(array_len, max=5)
 
     len = 0
     for e in arr:

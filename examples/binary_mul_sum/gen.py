@@ -13,7 +13,7 @@ def generate_example():
     sum = 0
     for i in range(0, len):
         sum += (arr1[i] + arr2[i]) * arr1[i]
-    return (arr1, arr2, result)
+    return (arr1, arr2, sum)
 
 
 # This tool is independent of the syntool name.
@@ -56,7 +56,7 @@ return c;
     base_case = gen_utils.L2Example()
     base_case.add_array_input([])
     base_case.add_array_input([])
-    base_case.array_output(0)
+    base_case.array_output([])
     example_sets['L2'].base_cases = [base_case]
 
     # Write them out to files.

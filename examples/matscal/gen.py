@@ -9,7 +9,7 @@ def generate_example():
     m = random.randint(2, 5)
     n = random.randint(2, 5)
     val = random.randint(2, 5)
-    matA = gen_utils.randomintarray(m * n)
+    matA = gen_utils.randomintarray(m * n, max=7)
     matRes = [1] * (m * n)
 
     for i in range(m):

@@ -7,7 +7,7 @@ gen_utils.handle_args()
 
 def generate_example():
     len = random.randint(1, 20)
-    array = gen_utils.randomintarray(len, min=-100, max=100)
+    array = gen_utils.randomintarray(len, min=-40, max=40)
     idx = 0
     max = -1000000
     for i in range(len):

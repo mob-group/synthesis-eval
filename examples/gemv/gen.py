@@ -9,8 +9,8 @@ def generate_example():
     M = int(random.randint(2, 5))
     N = int(random.randint(2, 5))
 
-    a = gen_utils.randomintarray(N * M)
-    x = gen_utils.randomintarray(N)
+    a = gen_utils.randomintarray(N * M, min=-3, max=3)
+    x = gen_utils.randomintarray(N, min=-3, max=3)
     y = [0] * M
 
     for i in range(M):

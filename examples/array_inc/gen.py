@@ -12,7 +12,7 @@ def generate_example():
     res = []
 
     for i in range(array_len):
-        n = random.randint(-100, 100)
+        n = random.randint(-10, 10)
         arr1.append(n)
         res.append(n + 1)
 

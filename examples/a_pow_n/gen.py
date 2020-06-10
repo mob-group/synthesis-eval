@@ -6,8 +6,8 @@ import random
 gen_utils.handle_args()
 
 def generate_example():
-    a = random.randint(0, 20)
-    n = random.randint(0, 10)
+    a = random.randint(0, 3)
+    n = random.randint(0, 4)
     return (a, n, a ** n)
 
 

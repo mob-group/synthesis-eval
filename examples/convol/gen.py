@@ -6,8 +6,8 @@ import random
 gen_utils.handle_args()
 
 def generate_example():
-    M = int(random.randint(2, 20))
-    K = int(random.randint(2, 20))
+    M = int(random.randint(2, 6))
+    K = int(random.randint(2, 6))
 
     inarr = gen_utils.randomintarray(M)
     karr = gen_utils.randomintarray(K)

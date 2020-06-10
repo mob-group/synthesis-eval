@@ -7,7 +7,7 @@ gen_utils.handle_args()
 
 def generate_example():
     len = random.randint(1, 20)
-    array = gen_utils.randomintarray(len,min=-20,max=20)
+    array = gen_utils.randomintarray(len,min=-4,max=4)
     abs_arry = [abs(x) for x in array]
 
     return (array, sum(abs_arry))

@@ -6,8 +6,8 @@ import random
 gen_utils.handle_args()
 
 def generate_example():
-    len = random.randint(1, 20)
-    array = gen_utils.randomintarray(len,min=-20,max=20)
+    len = random.randint(1, 5)
+    array = gen_utils.randomintarray(len,min=-4,max=4)
     squared = [x * x for x in array]
 
     return (array, sum(squared))

@@ -6,8 +6,8 @@ import random
 gen_utils.handle_args()
 
 def generate_example():
-    n = random.randint(1, 10)
-    m = random.randint(n + 1, n + 10)
+    n = random.randint(1, 5)
+    m = random.randint(n + 1, n + 5)
 
     res = 0
 

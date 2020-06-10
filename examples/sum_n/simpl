@@ -1,18 +1,26 @@
 Examples
-2 -> 3;
-10 -> 55;
 7 -> 28;
+7 -> 28;
+1 -> 1;
+5 -> 15;
+9 -> 45;
+8 -> 36;
+7 -> 28;
+5 -> 15;
+8 -> 36;
 
 Partial Program
+
 fun n ->
 r = 0;
 while(?) {
-  ?;
-};
+?;
+}
 return r;
 
+
 Int Comps
-0, 1
+0,1
 
 Int Var Comps
 n,r

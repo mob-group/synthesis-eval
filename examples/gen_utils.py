@@ -286,7 +286,9 @@ class SketchAdaptExample(Example):
             self.inputs.append(arr1)
         else:
             self.inputs.append(arr1)
-            self.add_int_input(len(arr1))
+            # I think the length field breaks a bunch
+            # of the inputs.
+            # self.add_int_input(len(arr1))
 
     def add_int_input(self, i):
         self.inputs.append(i)
@@ -526,7 +528,7 @@ def randomfloatarray(len):
     return arr
 
 
-def randomintarray(len, min=0, max=20):
+def randomintarray(len, min=0, max=10):
     arr = []
     for i in range(len):
         arr.append(random.randint(min, max))

@@ -9,14 +9,12 @@ def generate_example():
     len = random.randint(1, 10) * 2
     array = gen_utils.randomintarray(len)
     array2 = gen_utils.randomintarray(len)
-    difflist = []
-    for i in range(len):
-        difflist.append( )
 
+    out = []
     for i in range(len):
-        x = arr[i] - arr2[i];
+        x = array[i] - array2[i];
         if (x % 2 == 0):
-          out[filtered] = x * arr2[filtered];
+          out.append(x * array2[i])
     return (array, array2, out)
 
 
@@ -24,7 +22,7 @@ def generate_example():
 def convert(example, example_class, syntool_name):
     example_class.add_array_input(example[0])
     example_class.add_array_input(example[1])
-    example_class.add_array_output(example[2])
+    example_class.array_output(example[2])
 
     return example_class
 

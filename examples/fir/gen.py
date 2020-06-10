@@ -8,9 +8,9 @@ gen_utils.handle_args()
 def generate_example():
     N = int(random.randint(2, 20))
 
-    inarr = gen_utils.randomintarray(N)
+    inarr = gen_utils.randomintarray(N, min=-5, max=5)
     outarr = [0] * N
-    coeffs = gen_utils.randomintarray(N)
+    coeffs = gen_utils.randomintarray(N, min=-5, max=5)
 
     for n in range(N):
         outarr[n] = 0

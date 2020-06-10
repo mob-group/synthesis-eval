@@ -7,12 +7,12 @@ gen_utils.handle_args()
 
 def generate_example():
     len = random.randint(1, 10) * 2
-    array = gen_utils.randomintarray(len)
-    drop = random.randint(1, 7)
+    array = gen_utils.randomintarray(len, min=-50, max=50)
+    drop = random.randint(1, len - 1)
 
     result = 0
     for item in array[drop:]:
-        if (item / 3) % 2 == 0:
+        if (item // 3) % 2 == 0:
             result += 1
 
     return (array, drop, result)
@@ -20,8 +20,8 @@ def generate_example():
 
 # This tool is independent of the syntool name.
 def convert(example, example_class, syntool_name):
-    example_class.add_array_input(example[0])
     example_class.add_int_input(example[1])
+    example_class.add_array_input(example[0])
     example_class.int_output(example[2])
 
     return example_class

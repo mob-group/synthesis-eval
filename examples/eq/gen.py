@@ -6,7 +6,7 @@ import random
 gen_utils.handle_args()
 
 def generate_example():
-    array_len = random.randint(1, 30)
+    array_len = random.randint(1, 15)
 
     arr1 = gen_utils.randomintarray(array_len)
     arr2 = gen_utils.randomintarray(array_len)

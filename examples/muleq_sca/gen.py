@@ -8,7 +8,7 @@ gen_utils.handle_args()
 def generate_example():
     arrlen = random.randint(1, 20)
     array = gen_utils.randomintarray(arrlen)
-    divnum = random.randint(1, 20)
+    divnum = random.randint(1, 10)
     n_arr = []
 
     for i in range(len(array)):

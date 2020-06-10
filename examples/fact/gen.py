@@ -6,7 +6,7 @@ import random
 gen_utils.handle_args()
 
 def generate_example():
-    n = random.randint(1, 10)
+    n = random.randint(1, 6)
     orig = n
 
     res = 1

@@ -7,8 +7,8 @@ gen_utils.handle_args()
 
 def generate_example():
     len = random.randint(1, 6)
-    array = gen_utils.randomintarray(len)
-    array2 = gen_utils.randomintarray(len)
+    array = gen_utils.randomintarray(len, min=1, max=5)
+    array2 = gen_utils.randomintarray(len, min=1, max=5)
 
     sum = 0
     for i in range(len):

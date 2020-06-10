@@ -9,8 +9,8 @@ def generate_example():
     n = random.randint(2, 5)
     m = random.randint(2, 5)
     p = random.randint(2, 5)
-    matA = gen_utils.randomintarray(m * n)
-    matB = gen_utils.randomintarray(n * p)
+    matA = gen_utils.randomintarray(m * n, min=0, max=4)
+    matB = gen_utils.randomintarray(n * p, min=0, max=4)
     matC = [0] * (m * p)
 
     for i in range(m):
