@@ -40,27 +40,26 @@ if __name__ == "__main__":
     # Set up any important sub-fields in any of the tests.
     # Need to set an example program for simpl.
     example_sets['simpl'].partial_program = """
-fun arr, len, drop ->
+fun arr, len, arr2, len2, arrout, lenout ->
 n = 0;
 c = 0;
 while(?) {
-t = 0;
 ?;
 }
-return c;
+return arrout;
 """
     example_sets['simpl'].empty_partial_program = """
-fun arr, len, drop ->
+fun arr, len, arr2, len2, arrout, lenout ->
 ?;
-return c;
+return arrout;
 """
-    example_sets['simpl'].int_comps = "0,1,2,3"
-    example_sets['simpl'].int_var_comps = 'n,c,len,t,drop'
-    example_sets['simpl'].array_var_comps = 'arr'
+    example_sets['simpl'].int_comps = "0,1"
+    example_sets['simpl'].int_var_comps = 'n,c,len,len2,lenout'
+    example_sets['simpl'].array_var_comps = 'arr,arr2,arrout'
 
     base_case = gen_utils.L2Example()
     base_case.add_array_input([])
-    base_case.add_int_input(0)
+    base_case.add_array_input([])
     base_case.array_output([])
     example_sets['L2'].base_cases = [base_case]
 

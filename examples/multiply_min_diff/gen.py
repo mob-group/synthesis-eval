@@ -49,9 +49,9 @@ return outarr;
     example_sets['simpl'].empty_partial_program = """
 fun arr, len, arr2, len2, outarr, outlen ->
 ?;
-return c;
+return outarr;
 """
-    example_sets['simpl'].int_comps = "0,1,2,3"
+    example_sets['simpl'].int_comps = "0,1,2"
     example_sets['simpl'].int_var_comps = 'n,c,len,t,len2,outlen'
     example_sets['simpl'].array_var_comps = 'arr, arr2, outarr'
 

@@ -39,16 +39,16 @@ k = 0;
 while(?) {
 ?;
 }
-return r;
+return arrout;
 """
     example_sets['simpl'].empty_partial_program = """
-fun arr, len, arroth, lenoth ->
+fun arr, len, arrout, lenoth ->
 ?;
-return r;
+return arrout;
 """
     example_sets['simpl'].int_comps = "0,1,2"
     example_sets['simpl'].int_var_comps = 'len, r, n, lenoth, k'
-    example_sets['simpl'].array_var_comps = 'arr, arroth'
+    example_sets['simpl'].array_var_comps = 'arr, arrout'
 
     base_case = gen_utils.L2Example()
     base_case.add_array_input([])
