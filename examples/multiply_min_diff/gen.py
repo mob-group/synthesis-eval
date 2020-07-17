@@ -10,11 +10,15 @@ def generate_example():
     array = gen_utils.randomintarray(len)
     array2 = gen_utils.randomintarray(len)
 
+    diff_so_far = 10000
+    for i in range(len):
+        diff = array[i] - array2[i]
+        if diff < diff_so_far:
+            diff_so_far = diff
+
     out = []
     for i in range(len):
-        x = array[i] - array2[i];
-        if (x % 2 == 0):
-          out.append(x * array2[i])
+        out.append(array[i] - diff_so__far)
     return (array, array2, out)
 
 
@@ -53,7 +57,7 @@ return outarr;
 """
     example_sets['simpl'].int_comps = "0,1,2"
     example_sets['simpl'].int_var_comps = 'n,c,len,t,len2,outlen'
-    example_sets['simpl'].array_var_comps = 'arr, arr2, outarr'
+    example_sets['simpl'].array_var_comps = 'arr,arr2,outarr'
 
     base_case = gen_utils.L2Example()
     base_case.add_array_input([])
