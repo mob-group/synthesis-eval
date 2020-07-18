@@ -1,2 +1,2 @@
-float len(float *arr, int n)
+float len_sq(float *arr, int n)
 size arr, n
