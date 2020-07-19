@@ -1,2 +1,2 @@
-int min(int *arr, int n)
+int min_elt(int *arr, int n)
 size arr, n
