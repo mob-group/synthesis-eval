@@ -1,4 +1,4 @@
-void v_copy(int *a, int *b, int n)
+void vcopy(int *a, int *b, int n)
 output b
 size a, n
 size b, n
