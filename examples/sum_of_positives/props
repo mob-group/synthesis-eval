@@ -1,4 +1,4 @@
-void subtract_of_min_reverse(int *arr, int *arr2, int *arrout, int n)
+void sum_of_positives(int *arr, int *arr2, int *arrout, int n)
 size arr, n
 size arr2, n
 size arrout, n
