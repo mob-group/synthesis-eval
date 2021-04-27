@@ -55,7 +55,7 @@ return r;
     base_case = gen_utils.L2Example()
     base_case.add_int_input(5)
     base_case.add_int_input(5)
-    base_case.int_output(5)
+    base_case.int_output(1)
     example_sets['L2'].base_cases = [base_case]
 
     # Write them out to files.
