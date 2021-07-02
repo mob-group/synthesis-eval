@@ -16,12 +16,13 @@ echo "Cloning L2..."
 
 git clone https://github.com/jfeser/L2.git "$L2_DIR"
 cd "$L2_DIR"
-git checkout 1ed1abaa
 
 echo "Building L2..."
 
-jbuilder external-lib-deps --missing @install
-jbuilder build @install
+eval `opam config env`
+opam install -y --deps-only ./l2.opam.locked --unlock-base
+opam install dune
+dune build
 
 echo "Installing L2..."
 
