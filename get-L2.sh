@@ -16,12 +16,13 @@ echo "Cloning L2..."
 
 git clone https://github.com/jfeser/L2.git "$L2_DIR"
 cd "$L2_DIR"
-git checkout 1ed1abaa
+opam install --deps-only ./l2.opam.locked
+git checkout pldi-modernize
 
 echo "Building L2..."
 
-jbuilder external-lib-deps --missing @install
-jbuilder build @install
+dune external-lib-deps --missing @install
+dune build @install
 
 echo "Installing L2..."
 
