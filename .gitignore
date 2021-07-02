@@ -178,3 +178,4 @@ baseline/
 pldi/
 
 env.sh
+.vagrant
