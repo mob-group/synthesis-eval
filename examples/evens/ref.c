@@ -1,4 +1,4 @@
-#include <stdbool.h>
+
 
 void evens(int *a, int *b, int n) {
   int outindex = 0;
