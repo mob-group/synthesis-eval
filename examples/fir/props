@@ -1,3 +1,5 @@
 void fir(int *in, int *out, int *coefs, int N)
 output out
 size out, N
+size in, N
+size coefs, N

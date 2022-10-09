@@ -1,3 +1,4 @@
 void multiply_evens(int *arr, int *arr2, int n, int *out)
 size arr, n
 size arr2, n
+size out, n

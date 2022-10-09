@@ -1,4 +1,4 @@
 bool evens(int *a, int *b, int n)
+output b
 size a, n
 size b, n
-output b
