@@ -1,5 +1,5 @@
 void matmul(int *matA, int *matB, int *matC, int m, int n, int p)
 output matC
-size matA, n*m
-size matB, m*p
-size matC, n*p
+size matA, { n*m }
+size matB, { m*p }
+size matC, { n*p }
