@@ -1,2 +1,4 @@
 void matadd(int *matA, int *matB, int m, int n)
 output matA
+size matA, m*n
+size matB, m*n
