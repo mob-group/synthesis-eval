@@ -1,4 +1,4 @@
 void matmul_sca(int *matA, int *matB, int val, int m, int n)
 output matB
-size matA, m*n
-size matB, m*n
+size matA, { m*n }
+size matB, { m*n }
