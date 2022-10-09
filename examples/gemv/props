@@ -2,4 +2,4 @@ void gemv(int M, int N, float *A, float *x, float *y)
 output y
 size x, N
 size y, M
-size A, M*N
+size A, { M*N }
