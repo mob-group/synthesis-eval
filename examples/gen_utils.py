@@ -347,7 +347,7 @@ class LLM(ExampleSet):
         self_dict = {
                 'func_def': get_function(),
                 'real_deps': get_deps(),
-                'fun_head_types': get_header(),
+                'fun_head_types': get_header().strip(),
                 'real_io_pairs': io_pairs,
                 'fname': get_fname()
         }
