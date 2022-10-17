@@ -10,7 +10,7 @@ def generate_example():
 
     arr1 = gen_utils.randomintarray(array_len)
     arr2 = gen_utils.randomintarray(array_len)
-    return (arr1, arr2, arr2 + arr1)
+    return (arr1, arr2, arr2, arr1)
 
 
 # This tool is independent of the syntool name.
@@ -18,6 +18,7 @@ def convert(example, example_class, syntool_name):
     example_class.add_array_input(example[0])
     example_class.add_array_input(example[1])
     example_class.array_output(example[2])
+    example_class.array_output(example[3])
 
     return example_class
 
@@ -28,6 +29,8 @@ if __name__ == "__main__":
     # Create an output of each type using the convert
     # function.
     example_sets = gen_utils.build_sets(examples, convert)
+
+    example_sets['LLM'].liveout = ['a', 'b']
 
     # Set up any important sub-fields in any of the tests.
     # Need to set an example program for simpl.

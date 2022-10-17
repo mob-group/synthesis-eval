@@ -30,6 +30,8 @@ if __name__ == "__main__":
     # function.
     example_sets = gen_utils.build_sets(examples, convert)
 
+    example_sets['LLM'].liveout = ['out']
+
     # Set up any important sub-fields in any of the tests.
     # Need to set an example program for simpl.
     example_sets['simpl'].partial_program = """

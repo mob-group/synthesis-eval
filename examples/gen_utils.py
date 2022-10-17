@@ -4,6 +4,7 @@ import argparse
 import json
 import random
 import pickle
+import re
 
 # These constants represent the number of examples that we should present to each
 # type of synthesis tool.
@@ -13,21 +14,91 @@ MAX_L2 = 10
 MAX_PLDI = 10 # TODO
 MAX_BASELINE = 10 # TODO
 MAX_SKETCH_ADAPT = 10
+MAX_LLM=10
 TYPE_LENGTHS = {
         'simpl': MAX_SIMPL,
         'L2': MAX_L2,
         'PLDI': MAX_PLDI,
         'Baseline': MAX_BASELINE,
         'makespeare': MAX_MAKESPEARE,
-        'SketchAdapt': MAX_SKETCH_ADAPT
+        'SketchAdapt': MAX_SKETCH_ADAPT,
+        'LLM': MAX_LLM
 }
 MAX = max(TYPE_LENGTHS.values())
 # Do not assign here.  This is set via the --no-help flag.  See the args() function.
 NO_HELP_MODE = False
 
 # This is a list of the supported synthesis program types.
-TYPES = ["L2", "makespeare", "simpl", "SketchAdapt"] # TODO -- Add PLDI and Baseline once those are supported.
+TYPES = ["L2", "makespeare", "simpl", "SketchAdapt", "LLM"] # TODO -- Add PLDI and Baseline once those are supported.
 
+def load_file():
+    # Load the ref.c file into a string.
+    with open('ref.c', 'r') as f:
+        return f.readlines()
+
+def get_function():
+    lines = load_file()
+    # all lines but the deps.
+    return ''.join([line for line in lines if '#include' not in line])
+
+def get_deps():
+    lines = load_file()
+    return ''.join([line for line in lines if '#include' in line])
+
+def in_place():
+    header = get_header()
+    typ = header.split(' ')[0]
+    return typ.strip() == 'void'
+
+def get_header():
+    lines = load_file()
+    # Get the first line that is plausibly the signature
+
+    for line in lines:
+        if line.strip().endswith('{'):
+            if line.strip().startswith('{'):
+                # Format is likely sig \n {
+                starting_line = last_line
+                break
+            else:
+                starting_line = line
+                break
+        else: # line does not end with {
+            last_line = line
+    return starting_line.replace('{', '')
+
+def get_implementation():
+    return ''.join(load_file())
+
+def get_arg_names():
+    return [n for (_, n) in get_args()]
+
+def get_arg_types():
+    return [t for (t, _) in get_args()]
+
+def get_fname():
+    header = get_header()
+    header = header.replace('*', '').replace('(', ' ')
+    name_start = header.split(' ')[1]
+
+    return name_start
+
+def get_args():
+    sig = get_header()
+    argstart = sig.index('(')
+    argend = sig.index(')')
+
+    args = sig[argstart + 1:argend]
+    names_and_types = []
+    for arg in args.split(','):
+        print(arg)
+        type, name = arg.strip().split(' ')
+        while name.startswith('*'):
+            name = name[1:]
+            type = type + '*'
+        names_and_types.append((type, name))
+
+    return names_and_types
 
 # This is a set of classes that help formatting everything to the right output.
 class ExampleSet(object):
@@ -235,6 +306,53 @@ class L2(ExampleSet):
         }
         return json.dumps(self_dict)
 
+class LLM(ExampleSet):
+    def __init__(self):
+        super(LLM, self).__init__()
+        self.liveout = []
+
+    def __str__(self):
+        # io_pairs should be a list of dicts --- each dict should have 'input'
+        # and 'output' sub-dicts
+        io_pairs = []
+        inputvnames = get_arg_names()
+        inputtypes = get_arg_types()
+
+        for example in self.examples:
+            iopair = {}
+            inputs = example.inputs
+            outputs = example.outputs
+
+            inputs_dict = {}
+            for i in range(len(inputs)):
+                inputs_dict[inputvnames[i]] = inputs[i]
+
+            # These functions are either in-place or not in-place, never both.
+            outputs_dict = {}
+            if in_place():
+                if len(self.liveout) == 0:
+                    print("Warning: generating outputs for liveout, but have no liveout!  Empty function? (Or specify llm liveout)")
+                for i in range(len(self.liveout)):
+                    liveoutname = self.liveout[i]
+                    outputs_dict[liveoutname] = outputs[i]
+            else:
+                for out in outputs:
+                    outputs_dict["returnv"] = out
+
+            iopair['inputs'] = inputs_dict
+            iopair['outputs'] = outputs_dict
+
+            io_pairs.append(iopair)
+
+        self_dict = {
+                'func_def': get_function(),
+                'real_deps': get_deps(),
+                'fun_head_types': get_header(),
+                'real_io_pairs': io_pairs,
+                'fname': get_fname()
+        }
+
+        return json.dumps(self_dict)
 
 # TODO -- These all need to have a constructor that is: (a) no (non-self) arguments, and (b) makes a call to the superclass __init__ function.
 # These two need to implment the __str__(self) function, which should return a string
@@ -273,7 +391,7 @@ class Datum():
 
 class SketchAdaptExample(Example):
     def __init__(self):
-        super(SketchAdaptExample).__init__()
+        super(SketchAdaptExample, self).__init__()
         self.inputs = []
         self.outputs = []
 
@@ -312,7 +430,6 @@ class SketchAdaptExample(Example):
     def __str__(self):
         print("SketchAdapt should be converted to pickel not a string")
         raise Error()
-
 
 class SimplExample(Example):
     def __init__(self):
@@ -456,6 +573,30 @@ class L2Example(Example):
         return "(" + self.name + ' ' + ' '.join(str_in) + ') -> ' + ' '.join(str_out)
 
 
+class LLMExample(Example):
+    def __init__(self):
+        super(LLMExample, self).__init__()
+        self.inputs = []
+        self.outputs = []
+
+    def __format_arr(self, arr):
+        return '[' + ', '.join([str(x) for x in arr]) + ']'
+
+    def add_array_input(self, arr, nolen=False):
+        self.inputs.append(self.__format_arr(arr))
+
+    def add_int_input(self, i):
+        self.inputs.append(i)
+
+    def array_output(self, arr, nolen=False):
+        self.outputs.append(self.__format_arr(arr))
+
+    def int_output(self, i):
+        self.outputs = [i]
+
+    def __str__(self):
+        return "Use the set buiding funcion"
+
 # Generate as many examples as needed and return them as a list.
 def generate(gen_function):
     examples = []
@@ -477,6 +618,8 @@ def empty_set_gen(type):
         return Baseline()
     elif type == "SketchAdapt":
         return SketchAdapt()
+    elif type == "LLM":
+        return LLM()
     else:
         raise Error("Unsupported type " + type + " in the empty_set_gen function")
 
@@ -494,6 +637,8 @@ def empty_example_gen(type):
         return BaselineExample()
     elif type == "SketchAdapt":
         return SketchAdaptExample()
+    elif type == "LLM":
+        return LLMExample()
     else:
         raise Error("Unsupported type " + type + " in the empty_example_gen function")
 

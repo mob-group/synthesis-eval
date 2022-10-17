@@ -18,7 +18,7 @@ def generate_example():
 
     out = []
     for i in range(len):
-        out.append(array[i] - diff_so__far)
+        out.append(array[i] - diff_so_far)
     return (array, array2, out)
 
 
@@ -37,6 +37,8 @@ if __name__ == "__main__":
     # Create an output of each type using the convert
     # function.
     example_sets = gen_utils.build_sets(examples, convert)
+
+    example_sets['LLM'].liveout = ['out']
 
     # Set up any important sub-fields in any of the tests.
     # Need to set an example program for simpl.
